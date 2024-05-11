@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NetEvolve.Extensions.Logging.XUni\NetEvolve.Extensions.Logging.XUni.csproj" />
+    <ProjectReference Include="..\..\src\NetEvolve.Extensions.Logging.XUnit\NetEvolve.Extensions.Logging.XUnit.csproj" />
   </ItemGroup>
 
 </Project>
