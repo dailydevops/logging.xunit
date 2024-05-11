@@ -28,5 +28,5 @@ jobs:
       dotnet-logging: ${{ inputs.dotnet-logging }}
       dotnet-version: |
         8.x
-      solution: ###SOLUTION###
+      solution: ./Extensions.Logging.XUnit.sln
     secrets: inherit
