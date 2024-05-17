@@ -25,11 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFE8181B-6FA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BD750CCE-0318-424D-89B4-9C66EF329E96}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEvolve.Extensions.Logging.XUnit", "src\NetEvolve.Extensions.Logging.XUnit\NetEvolve.Extensions.Logging.XUnit.csproj", "{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEvolve.Logging.XUnit", "src\NetEvolve.Logging.XUnit\NetEvolve.Logging.XUnit.csproj", "{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEvolve.Extensions.Logging.XUnit.Tests.Unit", "tests\NetEvolve.Extensions.Logging.XUnit.Tests.Unit\NetEvolve.Extensions.Logging.XUnit.Tests.Unit.csproj", "{EAAD2C22-48F4-4E37-9A46-0350C6B84388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEvolve.Logging.XUnit.Tests.Unit", "tests\NetEvolve.Logging.XUnit.Tests.Unit\NetEvolve.Logging.XUnit.Tests.Unit.csproj", "{EAAD2C22-48F4-4E37-9A46-0350C6B84388}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEvolve.Extensions.Logging.XUnit.Tests.Integration", "tests\NetEvolve.Extensions.Logging.XUnit.Tests.Integration\NetEvolve.Extensions.Logging.XUnit.Tests.Integration.csproj", "{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEvolve.Logging.XUnit.Tests.Integration", "tests\NetEvolve.Logging.XUnit.Tests.Integration\NetEvolve.Logging.XUnit.Tests.Integration.csproj", "{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,8 +59,7 @@ Global
 		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12} = {BD750CCE-0318-424D-89B4-9C66EF329E96}
 	EndGlobalSection
 EndGlobal
-Any CPU
-		{6211ACA9-9A91-4218-8B4B-E94F91796B58}.Release|Any CPU.Build.0 = Release|Any CPU
+CPU.Build.0 = Release|Any CPU
 		{FFF70EC4-D0FD-4D73-8599-7FF442133436}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFF70EC4-D0FD-4D73-8599-7FF442133436}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFF70EC4-D0FD-4D73-8599-7FF442133436}.Release|Any CPU.ActiveCfg = Release|Any CPU
