@@ -11,11 +11,4 @@ public sealed class XUnitLogger<T> : XUnitLogger, ILogger<T>
         XUnitLoggerOptions? options
     )
         : base(testOutputHelper, scopeProvider, typeof(T).FullName, options) { }
-
-    internal XUnitLogger(
-        IMessageSink messageSink,
-        IExternalScopeProvider? scopeProvider,
-        XUnitLoggerOptions? options
-    )
-        : base(messageSink, scopeProvider, typeof(T).FullName, options) { }
 }

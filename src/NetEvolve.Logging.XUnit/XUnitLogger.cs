@@ -4,10 +4,10 @@ using System;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using NetEvolve.Logging.Abstractions;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
-public class XUnitLogger : ILogger
+public class XUnitLogger : ILogger, ISupportExternalScope
 {
     private readonly string? _categoryName;
     private readonly XUnitLoggerOptions _options;
@@ -20,9 +20,9 @@ public class XUnitLogger : ILogger
     [ThreadStatic]
     private static StringBuilder? _builder;
 
-    public IReadOnlyList<LoggedMessage> LoggedMessages => _loggedMessages.AsReadOnly();
+    public IExternalScopeProvider ScopeProvider { get; private set; }
 
-    internal IExternalScopeProvider? ScopeProvider { get; set; }
+    public IReadOnlyList<LoggedMessage> LoggedMessages => _loggedMessages.AsReadOnly();
 
     public static XUnitLogger CreateLogger(
         ITestOutputHelper testOutputHelper,
@@ -40,32 +40,16 @@ public class XUnitLogger : ILogger
     internal XUnitLogger(
         ITestOutputHelper testOutputHelper,
         IExternalScopeProvider? scopeProvider,
-        string? categoryName,
+        string? name,
         XUnitLoggerOptions? options
     )
     {
         ArgumentNullException.ThrowIfNull(testOutputHelper);
+        ArgumentNullException.ThrowIfNull(name);
 
         _writeToLogger = testOutputHelper.WriteLine;
-        ScopeProvider = scopeProvider;
-        _categoryName = categoryName;
-        _options = options ?? XUnitLoggerOptions.Default;
-
-        _loggedMessages = [];
-    }
-
-    internal XUnitLogger(
-        IMessageSink messageSink,
-        IExternalScopeProvider? scopeProvider,
-        string? categoryName,
-        XUnitLoggerOptions? options
-    )
-    {
-        ArgumentNullException.ThrowIfNull(messageSink);
-
-        _writeToLogger = message => messageSink.OnMessage(new DiagnosticMessage(message));
-        ScopeProvider = scopeProvider;
-        _categoryName = categoryName;
+        ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
+        _categoryName = name;
         _options = options ?? XUnitLoggerOptions.Default;
 
         _loggedMessages = [];
@@ -73,7 +57,7 @@ public class XUnitLogger : ILogger
 
     /// <inheritdoc cref="ILogger.BeginScope{TState}(TState)"/>
     public IDisposable? BeginScope<TState>(TState state)
-        where TState : notnull => ScopeProvider?.Push(state);
+        where TState : notnull => ScopeProvider.Push(state);
 
     /// <inheritdoc cref="ILogger.IsEnabled(LogLevel)"/>
     public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
@@ -170,7 +154,7 @@ public class XUnitLogger : ILogger
             }
         }
 
-        ScopeProvider?.ForEachScope(
+        ScopeProvider.ForEachScope(
             (scope, state) =>
             {
                 scopes.Add(scope);
@@ -230,4 +214,12 @@ public class XUnitLogger : ILogger
             LogLevel.None => "NONE",
             _ => throw new ArgumentOutOfRangeException(nameof(logLevel))
         };
+
+    /// <inheritdoc/>
+    public void SetScopeProvider(IExternalScopeProvider scopeProvider)
+    {
+        ArgumentNullException.ThrowIfNull(scopeProvider);
+
+        ScopeProvider = scopeProvider;
+    }
 }

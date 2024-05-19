@@ -1,4 +1,6 @@
-namespace NetEvolve.Logging.XUnit.Tests.Integration;
+﻿namespace NetEvolve.Logging.XUnit.Tests.Integration;
+
+using Xunit;
 
 public class UnitTest1
 {
