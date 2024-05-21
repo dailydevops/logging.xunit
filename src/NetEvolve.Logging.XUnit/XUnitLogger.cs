@@ -209,29 +209,29 @@ public class XUnitLogger : ILogger, ISupportExternalScope
                 PrintScope(scope, state);
             }
         }
+    }
 
-        void PrintScope(object? scope, StringBuilder state)
+    private static void PrintScope(object? scope, StringBuilder state)
+    {
+        if (scope is IEnumerable<KeyValuePair<string, object?>> scopeList)
         {
-            if (scope is IEnumerable<KeyValuePair<string, object?>> scopeList)
+            foreach (var subScope in scopeList)
             {
-                foreach (var info in scopeList)
-                {
-                    PrintScope(info, state);
-                }
-
-                return;
+                PrintScope(subScope, state);
             }
 
-            _ = state.Append('\n').Append(' ', 4).Append("=>").Append(' ');
+            return;
+        }
 
-            if (scope is string stringScope)
-            {
-                _ = state.Append(stringScope);
-            }
-            else if (scope is KeyValuePair<string, object> info)
-            {
-                _ = state.Append(info.Key).Append(": ").Append(info.Value);
-            }
+        _ = state.Append('\n').Append(' ', 4).Append("=>").Append(' ');
+
+        if (scope is KeyValuePair<string, object> info)
+        {
+            _ = state.Append(info.Key).Append(": ").Append(info.Value);
+        }
+        else
+        {
+            _ = state.Append(scope);
         }
     }
 

@@ -55,8 +55,7 @@ public partial class XUnitLoggerTests
                 disableScopes,
                 disableTimestamp,
                 formatTimestamp
-            )
-            .AutoVerify();
+            );
     }
 
     [Theory]
@@ -98,8 +97,7 @@ public partial class XUnitLoggerTests
                 disableScopes,
                 disableTimestamp,
                 formatTimestamp
-            )
-            .AutoVerify();
+            );
     }
 
     public static TheoryData<bool, bool, bool, bool, string?> LoggedMessageOrToStringData =>
