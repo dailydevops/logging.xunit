@@ -11,6 +11,9 @@ using Xunit.Abstractions;
 
 public partial class XUnitLoggerTests
 {
+    private readonly TimeProvider _fakeTimeProvider = new FakeTimeProvider(
+        new DateTimeOffset(2000, 1, 1, 13, 37, 00, TimeSpan.FromHours(2))
+    );
     private readonly ITestOutputHelper _testOutputHelper;
 
     public XUnitLoggerTests(ITestOutputHelper testOutputHelper) =>
@@ -36,7 +39,7 @@ public partial class XUnitLoggerTests
         };
         var logger = XUnitLogger.CreateLogger<TestCase>(
             _testOutputHelper,
-            new FakeTimeProvider(new DateTimeOffset(2000, 1, 1, 13, 37, 00, TimeSpan.FromHours(2))),
+            _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
@@ -78,7 +81,7 @@ public partial class XUnitLoggerTests
         };
         var logger = XUnitLogger.CreateLogger<TestCase>(
             _testOutputHelper,
-            new FakeTimeProvider(new DateTimeOffset(2000, 1, 1, 13, 37, 00, TimeSpan.FromHours(2))),
+            _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
