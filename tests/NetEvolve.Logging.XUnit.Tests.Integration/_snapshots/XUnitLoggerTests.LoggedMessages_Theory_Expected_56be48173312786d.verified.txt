@@ -1,0 +1,77 @@
+﻿[
+  {
+    Timestamp: DateTimeOffset_1,
+    Message: This is a Trace.,
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Debug,
+    Message: This is a Debug.,
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Information,
+    Message: This is an Information.,
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Warning,
+    Message: This is a Warning.,
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Error,
+    Message: This is an Error.,
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Critical,
+    Message: This is a Critical.,
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Critical,
+    Message: This is a Critical with exception.,
+    Exception: {
+      $type: NotImplementedException,
+      Type: NotImplementedException,
+      Message: The method or operation is not implemented.,
+      StackTrace: at NetEvolve.Logging.XUnit.Tests.Integration.XUnitLoggerTests.TestCase.Run()
+    },
+    Scopes: [
+      {
+        MethodName: Run
+      }
+    ]
+  }
+]

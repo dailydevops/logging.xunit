@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(ProjectTargetFrameworks)</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package settings">
+    <Title>$(MSBuildProjectName)</Title>
+    <Description>Extensions for `ILogger` implementations to log messages to xUnit test output.</Description>
+    <RepositoryUrl>https://github.com/dailydevops/logging.xunit.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dailydevops/logging.xunit.git</PackageProjectUrl>
+    <PackageTags>logging;provider;xunit</PackageTags>
+    <CopyrightYearStart>2024</CopyrightYearStart>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" />
+    <PackageReference Include="NetEvolve.Arguments" />
+    <PackageReference Include="NetEvolve.Logging.Abstractions" />
+    <PackageReference Include="xunit.extensibility.core" />
+  </ItemGroup>
+
+</Project>

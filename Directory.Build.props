@@ -9,4 +9,11 @@
   <Import Project="$(DirEngineeringSettings)src.build.props" Condition=" '$(IsTestableProject)' != 'true' " />
   <Import Project="$(DirEngineeringSettings)tests.build.props" Condition=" '$(IsTestableProject)' == 'true' " />
 
+  <PropertyGroup>
+    <ProjectTargetFrameworks>net6.0;net7.0;net8.0</ProjectTargetFrameworks>
+    <TestTargetFrameworks>net6.0;net7.0;net8.0</TestTargetFrameworks>
+
+    <DisableBannedApiForUTC>true</DisableBannedApiForUTC>
+  </PropertyGroup>
+
 </Project>
