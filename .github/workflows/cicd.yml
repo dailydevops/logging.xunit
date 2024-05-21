@@ -24,7 +24,7 @@ jobs:
     name: Build & Tests
     uses: dailydevops/pipelines/.github/workflows/cicd-dotnet.yml@0.9.3
     with:
-      disablePublish: true
+      enableSonarQube: true
       dotnet-logging: ${{ inputs.dotnet-logging }}
       dotnet-version: |
         8.x
