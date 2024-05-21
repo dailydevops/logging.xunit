@@ -4,14 +4,19 @@ using System;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using NetEvolve.Arguments;
 using NetEvolve.Logging.Abstractions;
 using Xunit.Abstractions;
 
+/// <summary>
+/// Represents a logger that writes messages to xunit output.
+/// </summary>
 public class XUnitLogger : ILogger, ISupportExternalScope
 {
-    private readonly string? _categoryName;
-    private readonly XUnitLoggerOptions _options;
-    private readonly Action<string>? _writeToLogger;
+    private readonly IXUnitLoggerOptions _options;
+    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly TimeProvider _timeProvider;
 
     private readonly List<LoggedMessage> _loggedMessages;
 
@@ -20,36 +25,65 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     [ThreadStatic]
     private static StringBuilder? _builder;
 
+    /// <summary>
+    /// Gets the external scope provider.
+    /// </summary>
     public IExternalScopeProvider ScopeProvider { get; private set; }
 
+    /// <inheritdoc cref="IHasLoggedMessages.LoggedMessages"/>
     public IReadOnlyList<LoggedMessage> LoggedMessages => _loggedMessages.AsReadOnly();
 
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger"/>.
+    /// </summary>
+    /// <param name="testOutputHelper">The <see cref="ITestOutputHelper" /> to write the log messages to.</param>
+    /// <param name="timeProvider">The <see cref="TimeProvider" /> to use to get the current time.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
     public static XUnitLogger CreateLogger(
         ITestOutputHelper testOutputHelper,
+        TimeProvider timeProvider,
         IExternalScopeProvider? scopeProvider = null,
-        string? categoryName = null,
-        XUnitLoggerOptions? options = null
-    ) => new XUnitLogger(testOutputHelper, scopeProvider, categoryName, options);
-
-    public static XUnitLogger<T> CreateLogger<T>(
-        ITestOutputHelper testOutputHelper,
-        IExternalScopeProvider? scopeProvider = null,
-        XUnitLoggerOptions? options = null
-    ) => new XUnitLogger<T>(testOutputHelper, scopeProvider, options);
-
-    internal XUnitLogger(
-        ITestOutputHelper testOutputHelper,
-        IExternalScopeProvider? scopeProvider,
-        string? name,
-        XUnitLoggerOptions? options
+        IXUnitLoggerOptions? options = null
     )
     {
-        ArgumentNullException.ThrowIfNull(testOutputHelper);
-        ArgumentNullException.ThrowIfNull(name);
+        Argument.ThrowIfNull(testOutputHelper);
 
-        _writeToLogger = testOutputHelper.WriteLine;
+        return new XUnitLogger(testOutputHelper, timeProvider, scopeProvider, options);
+    }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type who's fullname is used as the category name for messages produced by the logger.</typeparam>
+    /// <param name="testOutputHelper">The <see cref="ITestOutputHelper" /> to write the log messages to.</param>
+    /// <param name="timeProvider">The <see cref="TimeProvider" /> to use to get the current time.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger<T> CreateLogger<T>(
+        ITestOutputHelper testOutputHelper,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    )
+        where T : notnull =>
+        new XUnitLogger<T>(testOutputHelper, timeProvider, scopeProvider, options);
+
+    private protected XUnitLogger(
+        ITestOutputHelper testOutputHelper,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider,
+        IXUnitLoggerOptions? options
+    )
+    {
+        Argument.ThrowIfNull(testOutputHelper);
+        Argument.ThrowIfNull(timeProvider);
+
         ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
-        _categoryName = name;
+        _testOutputHelper = testOutputHelper;
+        _timeProvider = timeProvider;
         _options = options ?? XUnitLoggerOptions.Default;
 
         _loggedMessages = [];
@@ -71,7 +105,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         Func<TState, Exception?, string> formatter
     )
     {
-        ArgumentNullException.ThrowIfNull(formatter);
+        Argument.ThrowIfNull(formatter);
 
         if (!IsEnabled(logLevel))
         {
@@ -82,29 +116,38 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         _builder = null;
         builder ??= new StringBuilder(DefaultCapacity);
 
-        var message = formatter(state, exception);
-        var now = DateTimeOffset.Now;
-        (builder, var scopes) = CreateMessage(logLevel, state, exception, builder, message, now);
-
         try
         {
+            var message = formatter(state, exception);
+            var now = _timeProvider.GetLocalNow();
+            (builder, var scopes) = CreateMessage(
+                logLevel,
+                state,
+                exception,
+                builder,
+                message,
+                now
+            );
+
             _loggedMessages.Add(
                 new LoggedMessage(now, logLevel, eventId, message, exception, scopes)
             );
-            _writeToLogger?.Invoke(builder.ToString());
+            _testOutputHelper.WriteLine(builder.ToString());
         }
         catch
         {
             // Ignore exception.
             // Unfortunately, this can happen if the process is terminated before the end of the test.
         }
-
-        _ = builder.Clear();
-        if (builder.Capacity > DefaultCapacity)
+        finally
         {
-            builder.Capacity = DefaultCapacity;
+            _ = builder.Clear();
+            if (builder.Capacity > DefaultCapacity)
+            {
+                builder.Capacity = DefaultCapacity;
+            }
+            _builder = builder;
         }
-        _builder = builder;
     }
 
     private (StringBuilder, List<object?>) CreateMessage<TState>(
@@ -129,11 +172,6 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             _ = builder.Append('[').Append(LogLevelToString(logLevel)).Append("] ");
         }
 
-        if (!_options.DisableCategory)
-        {
-            _ = builder.Append('[').Append(_categoryName).Append("] ");
-        }
-
         _ = builder.Append(message);
 
         if (exception is not null)
@@ -146,63 +184,63 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             && state is IReadOnlyList<KeyValuePair<string, object?>> additionalInformation
         )
         {
-            var level = 1;
             _ = builder.Append('\n').Append('\t').Append("Additional Information");
             foreach (var info in additionalInformation)
             {
-                AddAdditionalInformation(builder, info, level);
+                AddAdditionalInformation(builder, info);
             }
         }
 
-        ScopeProvider.ForEachScope(
-            (scope, state) =>
-            {
-                scopes.Add(scope);
-
-                if (!_options.DisableScopes)
-                {
-                    _ = state.Append("\n=>\t").Append(scope);
-                }
-            },
-            builder
-        );
+        ScopeProvider.ForEachScope(IterateScopes, builder);
 
         return (builder, scopes);
+
+        void IterateScopes(object? scope, StringBuilder state)
+        {
+            if (scope is null)
+            {
+                return;
+            }
+
+            scopes.Add(scope);
+
+            if (!_options.DisableScopes)
+            {
+                PrintScope(scope, state);
+            }
+        }
+
+        void PrintScope(object? scope, StringBuilder state)
+        {
+            if (scope is IEnumerable<KeyValuePair<string, object?>> scopeList)
+            {
+                foreach (var info in scopeList)
+                {
+                    PrintScope(info, state);
+                }
+
+                return;
+            }
+
+            _ = state.Append('\n').Append(' ', 4).Append("=>").Append(' ');
+
+            if (scope is string stringScope)
+            {
+                _ = state.Append(stringScope);
+            }
+            else if (scope is KeyValuePair<string, object> info)
+            {
+                _ = state.Append(info.Key).Append(": ").Append(info.Value);
+            }
+        }
     }
 
     private static void AddAdditionalInformation(
         StringBuilder builder,
-        KeyValuePair<string, object?> info,
-        int level
-    )
-    {
-        _ = builder
-            .Append('\n')
-            .Append('\t', level)
-            .Append(CultureInfo.InvariantCulture, $"`{info.Key}`:");
+        KeyValuePair<string, object?> info
+    ) => _ = builder.Append('\n').Append(' ', 4).Append(info.Key).Append(": ").Append(info.Value);
 
-        if (info.Value is null)
-        {
-            _ = builder.Append(" `null`");
-        }
-        else if (info.Value is IConvertible convertible)
-        {
-            _ = builder.Append(CultureInfo.InvariantCulture, $" `{convertible.ToString()}`");
-        }
-        else if (info.Value is KeyValuePair<string, object?> kvp)
-        {
-            AddAdditionalInformation(builder, kvp, level + 1);
-        }
-        else if (info.Value is IEnumerable<KeyValuePair<string, object?>> enumerable)
-        {
-            foreach (var item in enumerable)
-            {
-                AddAdditionalInformation(builder, item, level + 1);
-            }
-        }
-    }
-
-    private static string LogLevelToString(LogLevel logLevel) =>
+    internal static string LogLevelToString(LogLevel logLevel) =>
         logLevel switch
         {
             LogLevel.Trace => "TRCE",
@@ -211,15 +249,64 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             LogLevel.Warning => "WARN",
             LogLevel.Error => "FAIL",
             LogLevel.Critical => "CRIT",
-            LogLevel.None => "NONE",
-            _ => throw new ArgumentOutOfRangeException(nameof(logLevel))
+            _ => "NONE"
         };
 
     /// <inheritdoc/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)
     {
-        ArgumentNullException.ThrowIfNull(scopeProvider);
+        Argument.ThrowIfNull(scopeProvider);
 
         ScopeProvider = scopeProvider;
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        var builder = _builder;
+        _builder = null;
+        builder ??= new StringBuilder(DefaultCapacity);
+
+        try
+        {
+            foreach (var lmsg in LoggedMessages)
+            {
+                if (!_options.DisableTimestamp)
+                {
+                    _ = builder
+                        .Append(
+                            lmsg.Timestamp.ToString(
+                                _options.TimestampFormat,
+                                CultureInfo.InvariantCulture
+                            )
+                        )
+                        .Append(' ');
+                }
+
+                if (!_options.DisableLogLevel)
+                {
+                    _ = builder.Append('[').Append(LogLevelToString(lmsg.LogLevel)).Append("] ");
+                }
+
+                _ = builder.Append(lmsg.Message);
+                _ = builder.AppendLine();
+
+                if (lmsg.Exception is not null)
+                {
+                    _ = builder.Append(lmsg.Exception).AppendLine();
+                }
+            }
+
+            return builder.ToString().Trim();
+        }
+        finally
+        {
+            _ = builder.Clear();
+            if (builder.Capacity > DefaultCapacity)
+            {
+                builder.Capacity = DefaultCapacity;
+            }
+            _builder = builder;
+        }
     }
 }

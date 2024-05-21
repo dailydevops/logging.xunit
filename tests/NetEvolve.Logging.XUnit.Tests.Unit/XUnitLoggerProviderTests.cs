@@ -17,7 +17,7 @@ public class XUnitLoggerProviderTests
     public void CreateLogger_WithTestOutputHelper()
     {
         // Arrange
-        using var provider = new XUnitLoggerProvider(_testOutputHelper);
+        using var provider = new XUnitLoggerProvider(_testOutputHelper, TimeProvider.System);
 
         // Act
         var logger = provider.CreateLogger(nameof(XUnitLoggerProviderTests));
@@ -31,7 +31,7 @@ public class XUnitLoggerProviderTests
     public void CreateLoggerGeneric_WithTestOutputHelper()
     {
         // Arrange
-        using var provider = new XUnitLoggerProvider(_testOutputHelper);
+        using var provider = new XUnitLoggerProvider(_testOutputHelper, TimeProvider.System);
 
         // Act
         var logger = provider.CreateLogger<XUnitLoggerProviderTests>();
@@ -45,7 +45,7 @@ public class XUnitLoggerProviderTests
     public void SetScopeProvider_Null_ThrowArgumentNullException()
     {
         // Arrange
-        using var provider = new XUnitLoggerProvider(_testOutputHelper);
+        using var provider = new XUnitLoggerProvider(_testOutputHelper, TimeProvider.System);
 
         // Act
         void Act() => provider.SetScopeProvider(null!);
@@ -58,7 +58,10 @@ public class XUnitLoggerProviderTests
     public void SetScopeProvider_WithNullScopeProvider_NoExceptionThrown()
     {
         // Arrange
-        using var provider = new XUnitLoggerProvider(_testOutputHelper);
+        using var provider = new XUnitLoggerProvider(_testOutputHelper, TimeProvider.System);
+
+        _ = provider.CreateLogger(nameof(XUnitLoggerProviderTests));
+        _ = provider.CreateLogger<XUnitLoggerProviderTests>();
 
         // Act
         var ex = Record.Exception(
@@ -73,8 +76,11 @@ public class XUnitLoggerProviderTests
     public void SetScopeProvider_WithScopeProvider_Expected()
     {
         // Arrange
-        using var provider = new XUnitLoggerProvider(_testOutputHelper);
+        using var provider = new XUnitLoggerProvider(_testOutputHelper, TimeProvider.System);
         var scopeProvider = new LoggerExternalScopeProvider();
+
+        _ = provider.CreateLogger(nameof(XUnitLoggerProviderTests));
+        _ = provider.CreateLogger<XUnitLoggerProviderTests>();
 
         // Act
         provider.SetScopeProvider(scopeProvider);

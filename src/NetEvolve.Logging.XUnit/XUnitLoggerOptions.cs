@@ -3,58 +3,53 @@
 /// <summary>
 /// Options for the <see cref="XUnitLogger"/>.
 /// </summary>
-public class XUnitLoggerOptions
+public class XUnitLoggerOptions : IXUnitLoggerOptions
 {
+    /// <summary>
+    /// Default options, which disables the category name, additional information and scopes in the log output.
+    /// </summary>
     public static XUnitLoggerOptions Default { get; } =
         new XUnitLoggerOptions { DisableAdditionalInformation = true, DisableScopes = true };
 
+    /// <summary>
+    /// Disables all features in the log output.
+    /// </summary>
     public static XUnitLoggerOptions DisableAllFeatures { get; } =
         new XUnitLoggerOptions
         {
             DisableAdditionalInformation = true,
-            DisableCategory = true,
             DisableLogLevel = true,
             DisableScopes = true,
             DisableTimestamp = true
         };
 
+    /// <summary>
+    /// Enables all features in the log output.
+    /// </summary>
     public static XUnitLoggerOptions EnableAllFeatures { get; } =
         new XUnitLoggerOptions
         {
             DisableAdditionalInformation = false,
-            DisableCategory = false,
             DisableLogLevel = false,
             DisableScopes = false,
             DisableTimestamp = false
         };
 
-    /// <summary>
-    /// Disables the output of the additional information in the log output. Default <see langword="false"/>.
-    /// </summary>
+    /// <inheritdoc cref="IXUnitLoggerOptions.DisableAdditionalInformation"/>
     public bool DisableAdditionalInformation { get; set; }
 
-    /// <summary>
-    /// Disable the category name in the log output. Default <see langword="false"/>.
-    /// </summary>
-    public bool DisableCategory { get; set; }
-
-    /// <summary>
-    /// Disable the log level in the log output. Default <see langword="false"/>.
-    /// </summary>
+    /// <inheritdoc cref="IXUnitLoggerOptions.DisableLogLevel"/>
     public bool DisableLogLevel { get; set; }
 
-    /// <summary>
-    /// Disable the scopes in the log output. Default <see langword="false"/>.
-    /// </summary>
+    /// <inheritdoc cref="IXUnitLoggerOptions.DisableScopes"/>
     public bool DisableScopes { get; set; }
 
-    /// <summary>
-    /// Disables the timestamps in the log output. Default <see langword="false"/>.
-    /// </summary>
+    /// <inheritdoc cref="IXUnitLoggerOptions.DisableTimestamp"/>
     public bool DisableTimestamp { get; set; }
 
     private string? _timestampFormat;
 
+    /// <inheritdoc cref="IXUnitLoggerOptions.TimestampFormat"/>
 #if NET7_0_OR_GREATER
     [System.Diagnostics.CodeAnalysis.StringSyntax(
         System.Diagnostics.CodeAnalysis.StringSyntaxAttribute.DateTimeFormat
