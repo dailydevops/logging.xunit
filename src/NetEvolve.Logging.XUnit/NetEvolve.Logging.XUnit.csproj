@@ -9,8 +9,8 @@
   <PropertyGroup Label="Package settings">
     <Title>$(MSBuildProjectName)</Title>
     <Description>Extensions for `ILogger` implementations to log messages to xUnit test output.</Description>
-    <RepositoryUrl>https://github.com/dailydevops/extensions.logging.xunit.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/dailydevops/extensions.logging.xunit.git</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dailydevops/logging.xunit.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dailydevops/logging.xunit.git</PackageProjectUrl>
     <PackageTags>logging;provider;xunit</PackageTags>
     <CopyrightYearStart>2024</CopyrightYearStart>
   </PropertyGroup>
