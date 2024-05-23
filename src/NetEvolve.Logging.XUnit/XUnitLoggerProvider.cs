@@ -62,7 +62,7 @@ internal sealed class XUnitLoggerProvider
         Argument.ThrowIfNullOrWhiteSpace(categoryName);
 
         return _loggers.GetOrAdd(
-            categoryName,
+            $"{categoryName}_Default",
             name => XUnitLogger.CreateLogger(_testOutputHelper, _timeProvider, _scopeProvider, this)
         );
     }
@@ -71,9 +71,57 @@ internal sealed class XUnitLoggerProvider
     public ILogger CreateLogger<T>()
         where T : notnull =>
         _loggers.GetOrAdd(
-            typeof(T).FullName!,
+            $"{typeof(T).FullName}_Default",
             _ => XUnitLogger.CreateLogger<T>(_testOutputHelper, _timeProvider, _scopeProvider, this)
         );
+
+    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
+    public ILogger CreateLogger(string categoryName, IMessageSink messageSink)
+    {
+        Argument.ThrowIfNullOrWhiteSpace(categoryName);
+        Argument.ThrowIfNull(messageSink);
+
+        return _loggers.GetOrAdd(
+            $"{categoryName}_IMessageSink",
+            name => XUnitLogger.CreateLogger(messageSink, _timeProvider, _scopeProvider, this)
+        );
+    }
+
+    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
+    public ILogger CreateLogger<T>(IMessageSink messageSink)
+        where T : notnull
+    {
+        Argument.ThrowIfNull(messageSink);
+
+        return _loggers.GetOrAdd(
+            $"{typeof(T).FullName}_IMessageSink",
+            _ => XUnitLogger.CreateLogger<T>(messageSink, _timeProvider, _scopeProvider, this)
+        );
+    }
+
+    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
+    public ILogger CreateLogger(string categoryName, ITestOutputHelper testOutputHelper)
+    {
+        Argument.ThrowIfNullOrWhiteSpace(categoryName);
+        Argument.ThrowIfNull(testOutputHelper);
+
+        return _loggers.GetOrAdd(
+            $"{categoryName}_ITestOutputHelper",
+            name => XUnitLogger.CreateLogger(testOutputHelper, _timeProvider, _scopeProvider, this)
+        );
+    }
+
+    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
+    public ILogger CreateLogger<T>(ITestOutputHelper testOutputHelper)
+        where T : notnull
+    {
+        Argument.ThrowIfNull(testOutputHelper);
+
+        return _loggers.GetOrAdd(
+            $"{typeof(T).FullName}_ITestOutputHelper",
+            _ => XUnitLogger.CreateLogger<T>(testOutputHelper, _timeProvider, _scopeProvider, this)
+        );
+    }
 
     /// <inheritdoc cref="ISupportExternalScope.SetScopeProvider(IExternalScopeProvider)"/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)

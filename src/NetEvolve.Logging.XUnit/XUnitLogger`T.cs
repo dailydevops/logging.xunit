@@ -9,6 +9,14 @@ public sealed class XUnitLogger<T> : XUnitLogger, ILogger<T>
     where T : notnull
 {
     internal XUnitLogger(
+        IMessageSink messageSink,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider,
+        IXUnitLoggerOptions? options
+    )
+        : base(messageSink, timeProvider, scopeProvider, options) { }
+
+    internal XUnitLogger(
         ITestOutputHelper testOutputHelper,
         TimeProvider timeProvider,
         IExternalScopeProvider? scopeProvider,
