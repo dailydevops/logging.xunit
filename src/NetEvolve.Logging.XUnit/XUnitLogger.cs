@@ -39,6 +39,19 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     /// Creates a new instance of <see cref="XUnitLogger"/>.
     /// </summary>
     /// <param name="messageSink">The <see cref="IMessageSink" /> to write the log messages to.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger CreateLogger(
+        IMessageSink messageSink,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    ) => CreateLogger(messageSink, TimeProvider.System, scopeProvider, options);
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger"/>.
+    /// </summary>
+    /// <param name="messageSink">The <see cref="IMessageSink" /> to write the log messages to.</param>
     /// <param name="timeProvider">The <see cref="TimeProvider" /> to use to get the current time.</param>
     /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
     /// <param name="options">The options to control the behavior of the logger.</param>
@@ -51,9 +64,25 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     )
     {
         Argument.ThrowIfNull(messageSink);
+        Argument.ThrowIfNull(timeProvider);
 
         return new XUnitLogger(messageSink, timeProvider, scopeProvider, options);
     }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type who's fullname is used as the category name for messages produced by the logger.</typeparam>
+    /// <param name="messageSink">The <see cref="IMessageSink" /> to write the log messages to.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger<T> CreateLogger<T>(
+        IMessageSink messageSink,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    )
+        where T : notnull => CreateLogger<T>(messageSink, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
@@ -76,6 +105,19 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     /// Creates a new instance of <see cref="XUnitLogger"/>.
     /// </summary>
     /// <param name="testOutputHelper">The <see cref="ITestOutputHelper" /> to write the log messages to.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger CreateLogger(
+        ITestOutputHelper testOutputHelper,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    ) => CreateLogger(testOutputHelper, TimeProvider.System, scopeProvider, options);
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger"/>.
+    /// </summary>
+    /// <param name="testOutputHelper">The <see cref="ITestOutputHelper" /> to write the log messages to.</param>
     /// <param name="timeProvider">The <see cref="TimeProvider" /> to use to get the current time.</param>
     /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
     /// <param name="options">The options to control the behavior of the logger.</param>
@@ -88,9 +130,26 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     )
     {
         Argument.ThrowIfNull(testOutputHelper);
+        Argument.ThrowIfNull(timeProvider);
 
         return new XUnitLogger(testOutputHelper, timeProvider, scopeProvider, options);
     }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type who's fullname is used as the category name for messages produced by the logger.</typeparam>
+    /// <param name="testOutputHelper">The <see cref="ITestOutputHelper" /> to write the log messages to.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger<T> CreateLogger<T>(
+        ITestOutputHelper testOutputHelper,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    )
+        where T : notnull =>
+        CreateLogger<T>(testOutputHelper, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
