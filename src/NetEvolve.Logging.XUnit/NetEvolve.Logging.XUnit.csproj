@@ -22,6 +22,7 @@
     <PackageReference Include="NetEvolve.Arguments" />
     <PackageReference Include="NetEvolve.Logging.Abstractions" />
     <PackageReference Include="xunit.extensibility.core" />
+    <PackageReference Include="xunit.extensibility.execution" />
   </ItemGroup>
 
 </Project>

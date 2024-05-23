@@ -15,10 +15,11 @@ using Xunit.Abstractions;
 public class XUnitLogger : ILogger, ISupportExternalScope
 {
     private readonly IXUnitLoggerOptions _options;
-    private readonly ITestOutputHelper _testOutputHelper;
     private readonly TimeProvider _timeProvider;
 
     private readonly List<LoggedMessage> _loggedMessages;
+
+    private readonly Action<string> _writeToLog;
 
     private const int DefaultCapacity = 1024;
 
@@ -32,6 +33,43 @@ public class XUnitLogger : ILogger, ISupportExternalScope
 
     /// <inheritdoc cref="IHasLoggedMessages.LoggedMessages"/>
     public IReadOnlyList<LoggedMessage> LoggedMessages => _loggedMessages.AsReadOnly();
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger"/>.
+    /// </summary>
+    /// <param name="messageSink">The <see cref="IMessageSink" /> to write the log messages to.</param>
+    /// <param name="timeProvider">The <see cref="TimeProvider" /> to use to get the current time.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger CreateLogger(
+        IMessageSink messageSink,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    )
+    {
+        Argument.ThrowIfNull(messageSink);
+
+        return new XUnitLogger(messageSink, timeProvider, scopeProvider, options);
+    }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The type who's fullname is used as the category name for messages produced by the logger.</typeparam>
+    /// <param name="messageSink">The <see cref="IMessageSink" /> to write the log messages to.</param>
+    /// <param name="timeProvider">The <see cref="TimeProvider" /> to use to get the current time.</param>
+    /// <param name="scopeProvider">The <see cref="IExternalScopeProvider" /> to use to get the current scope.</param>
+    /// <param name="options">The options to control the behavior of the logger.</param>
+    /// <returns>A cached or new instance of <see cref="XUnitLogger"/>.</returns>
+    public static XUnitLogger<T> CreateLogger<T>(
+        IMessageSink messageSink,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider = null,
+        IXUnitLoggerOptions? options = null
+    )
+        where T : notnull => new XUnitLogger<T>(messageSink, timeProvider, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger"/>.
@@ -82,11 +120,31 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         Argument.ThrowIfNull(timeProvider);
 
         ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
-        _testOutputHelper = testOutputHelper;
         _timeProvider = timeProvider;
         _options = options ?? XUnitLoggerOptions.Default;
 
         _loggedMessages = [];
+
+        _writeToLog = testOutputHelper.WriteLine;
+    }
+
+    private protected XUnitLogger(
+        IMessageSink messageSink,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider,
+        IXUnitLoggerOptions? options
+    )
+    {
+        Argument.ThrowIfNull(messageSink);
+        Argument.ThrowIfNull(timeProvider);
+
+        ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
+        _timeProvider = timeProvider;
+        _options = options ?? XUnitLoggerOptions.Default;
+
+        _loggedMessages = [];
+
+        _writeToLog = message => _ = messageSink.OnMessage(new DiagnosticMessage(message));
     }
 
     /// <inheritdoc cref="ILogger.BeginScope{TState}(TState)"/>
@@ -112,32 +170,74 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             return;
         }
 
+        try
+        {
+            var message = formatter(state, exception);
+            var now = _timeProvider.GetLocalNow();
+            var (fullMessage, scopes) = CreateMessage(logLevel, state, exception, message, now);
+
+            _loggedMessages.Add(
+                new LoggedMessage(now, logLevel, eventId, message, exception, scopes)
+            );
+
+            _writeToLog.Invoke(fullMessage);
+        }
+        catch
+        {
+            // Ignore exception.
+            // Unfortunately, this can happen if the process is terminated before the end of the test.
+        }
+    }
+
+    private (string, List<object?>) CreateMessage<TState>(
+        LogLevel logLevel,
+        TState state,
+        Exception? exception,
+        string message,
+        DateTimeOffset now
+    )
+    {
+        var scopes = new List<object?>();
         var builder = _builder;
         _builder = null;
         builder ??= new StringBuilder(DefaultCapacity);
 
         try
         {
-            var message = formatter(state, exception);
-            var now = _timeProvider.GetLocalNow();
-            (builder, var scopes) = CreateMessage(
-                logLevel,
-                state,
-                exception,
-                builder,
-                message,
-                now
-            );
+            if (!_options.DisableTimestamp)
+            {
+                _ = builder
+                    .Append(now.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture))
+                    .Append(' ');
+            }
 
-            _loggedMessages.Add(
-                new LoggedMessage(now, logLevel, eventId, message, exception, scopes)
-            );
-            _testOutputHelper.WriteLine(builder.ToString());
-        }
-        catch
-        {
-            // Ignore exception.
-            // Unfortunately, this can happen if the process is terminated before the end of the test.
+            if (!_options.DisableLogLevel)
+            {
+                _ = builder.Append('[').Append(LogLevelToString(logLevel)).Append("] ");
+            }
+
+            _ = builder.Append(message);
+
+            if (exception is not null)
+            {
+                _ = builder.Append('\n').Append(exception);
+            }
+
+            if (
+                !_options.DisableAdditionalInformation
+                && state is IReadOnlyList<KeyValuePair<string, object?>> additionalInformation
+            )
+            {
+                _ = builder.Append('\n').Append('\t').Append("Additional Information");
+                foreach (var info in additionalInformation)
+                {
+                    AddAdditionalInformation(builder, info);
+                }
+            }
+
+            ScopeProvider.ForEachScope(IterateScopes, builder);
+
+            return (builder.ToString(), scopes);
         }
         finally
         {
@@ -148,52 +248,6 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             }
             _builder = builder;
         }
-    }
-
-    private (StringBuilder, List<object?>) CreateMessage<TState>(
-        LogLevel logLevel,
-        TState state,
-        Exception? exception,
-        StringBuilder builder,
-        string message,
-        DateTimeOffset now
-    )
-    {
-        var scopes = new List<object?>();
-        if (!_options.DisableTimestamp)
-        {
-            _ = builder
-                .Append(now.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture))
-                .Append(' ');
-        }
-
-        if (!_options.DisableLogLevel)
-        {
-            _ = builder.Append('[').Append(LogLevelToString(logLevel)).Append("] ");
-        }
-
-        _ = builder.Append(message);
-
-        if (exception is not null)
-        {
-            _ = builder.Append('\n').Append(exception);
-        }
-
-        if (
-            !_options.DisableAdditionalInformation
-            && state is IReadOnlyList<KeyValuePair<string, object?>> additionalInformation
-        )
-        {
-            _ = builder.Append('\n').Append('\t').Append("Additional Information");
-            foreach (var info in additionalInformation)
-            {
-                AddAdditionalInformation(builder, info);
-            }
-        }
-
-        ScopeProvider.ForEachScope(IterateScopes, builder);
-
-        return (builder, scopes);
 
         void IterateScopes(object? scope, StringBuilder state)
         {
