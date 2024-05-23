@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using NetEvolve.Arguments;
 using NetEvolve.Logging.Abstractions;
 using Xunit.Abstractions;
