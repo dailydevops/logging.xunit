@@ -8,6 +8,7 @@ using Microsoft.Extensions.Primitives;
 using NetEvolve.Arguments;
 using NetEvolve.Logging.Abstractions;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 /// <summary>
 /// Represents a logger that writes messages to xunit output.
