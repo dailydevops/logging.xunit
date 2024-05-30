@@ -38,12 +38,13 @@ public class XUnitLoggerOptions : IXUnitLoggerOptions
     /// <summary>
     /// Minimal options, which disables the category name, additional information, scopes and timestamp in the log output.
     /// </summary>
-    public static XUnitLoggerOptions Minimal { get; } = new XUnitLoggerOptions
-    {
-        DisableAdditionalInformation = true,
-        DisableScopes = true,
-        DisableTimestamp = true
-    }
+    public static XUnitLoggerOptions Minimal { get; } =
+        new XUnitLoggerOptions
+        {
+            DisableAdditionalInformation = true,
+            DisableScopes = true,
+            DisableTimestamp = true
+        };
 
     /// <inheritdoc cref="IXUnitLoggerOptions.DisableAdditionalInformation"/>
     public bool DisableAdditionalInformation { get; set; }
