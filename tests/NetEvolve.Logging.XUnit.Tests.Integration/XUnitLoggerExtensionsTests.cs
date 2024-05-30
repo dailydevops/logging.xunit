@@ -63,7 +63,8 @@ public partial class XUnitLoggerExtensionsTests
             null,
             XUnitLoggerOptions.Default,
             XUnitLoggerOptions.EnableAllFeatures,
-            XUnitLoggerOptions.DisableAllFeatures
+            XUnitLoggerOptions.DisableAllFeatures,
+            XUnitLoggerOptions.Minimal
         };
 
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
