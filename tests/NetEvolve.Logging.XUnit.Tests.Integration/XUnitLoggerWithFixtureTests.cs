@@ -8,14 +8,14 @@ using VerifyXunit;
 using Xunit;
 using Xunit.Abstractions;
 
-public partial class XUnitLoggerTests
+public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
 {
     private readonly TimeProvider _fakeTimeProvider = new FakeTimeProvider(
         new DateTimeOffset(2000, 1, 1, 13, 37, 00, TimeSpan.FromHours(2))
     );
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public XUnitLoggerTests(ITestOutputHelper testOutputHelper) =>
+    public XUnitLoggerWithFixtureTests(ITestOutputHelper testOutputHelper) =>
         _testOutputHelper = testOutputHelper;
 
     [Theory]
@@ -50,6 +50,7 @@ public partial class XUnitLoggerTests
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
+            .UseDirectory("_snapshots")
             .UseHashedParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -91,6 +92,7 @@ public partial class XUnitLoggerTests
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
+            .UseDirectory("_snapshots")
             .UseHashedParameters(
                 disableAdditionalInformation,
                 disableLogLevel,

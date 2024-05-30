@@ -39,4 +39,33 @@ public static class XUnitLoggerExtensions
 
         return builder;
     }
+
+    /// <summary>
+    /// Adds a xunit logger named `xunit` to the factory.
+    /// </summary>
+    public static ILoggingBuilder AddXUnit(
+        this ILoggingBuilder builder,
+        IMessageSink messageSink,
+        XUnitLoggerOptions? options = null
+    )
+    {
+        Argument.ThrowIfNull(builder);
+        Argument.ThrowIfNull(messageSink);
+
+        var services = builder.Services.AddSingleton(messageSink);
+        services.TryAddSingleton(_ => TimeProvider.System);
+        services.TryAddScoped<IExternalScopeProvider, LoggerExternalScopeProvider>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ILoggerProvider, XUnitLoggerProvider>(
+                sp => new XUnitLoggerProvider(
+                    sp.GetRequiredService<IMessageSink>(),
+                    sp.GetRequiredService<TimeProvider>(),
+                    sp.GetRequiredService<IExternalScopeProvider>(),
+                    options ?? XUnitLoggerOptions.Default
+                )
+            )
+        );
+
+        return builder;
+    }
 }
