@@ -19,7 +19,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
     public XUnitLoggerWithFixtureTests(ITestOutputHelper testOutputHelper, TestFixture fixture)
     {
         _testOutputHelper = testOutputHelper;
-        _fixture=fixture;
+        _fixture = fixture;
     }
 
     [Theory]
@@ -28,8 +28,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         bool disableAdditionalInformation,
         bool disableLogLevel,
         bool disableScopes,
-        bool disableTimestamp,
-        string? formatTimestamp
+        bool disableTimestamp
     )
     {
         var options = new XUnitLoggerOptions
@@ -38,7 +37,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = formatTimestamp!
+            TimestampFormat = _fixture.TimestampFormat
         };
         var logger = XUnitLogger.CreateLogger<TestCase>(
             _testOutputHelper,
@@ -59,8 +58,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
                 disableAdditionalInformation,
                 disableLogLevel,
                 disableScopes,
-                disableTimestamp,
-                formatTimestamp
+                disableTimestamp
             );
     }
 
@@ -70,8 +68,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         bool disableAdditionalInformation,
         bool disableLogLevel,
         bool disableScopes,
-        bool disableTimestamp,
-        string? formatTimestamp
+        bool disableTimestamp
     )
     {
         var options = new XUnitLoggerOptions
@@ -80,7 +77,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = formatTimestamp!
+            TimestampFormat = _fixture.TimestampFormat
         };
         var logger = XUnitLogger.CreateLogger<TestCase>(
             _testOutputHelper,
@@ -101,19 +98,18 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
                 disableAdditionalInformation,
                 disableLogLevel,
                 disableScopes,
-                disableTimestamp,
-                formatTimestamp
+                disableTimestamp
             );
     }
 
-    public static TheoryData<bool, bool, bool, bool, string?> LoggedMessageOrToStringData =>
-        new TheoryData<bool, bool, bool, bool, string?>
+    public static TheoryData<bool, bool, bool, bool> LoggedMessageOrToStringData =>
+        new TheoryData<bool, bool, bool, bool>
         {
-            { false, false, false, false, null },
-            { true, false, false, false, null },
-            { false, true, false, false, null },
-            { false, false, true, false, null },
-            { false, false, false, true, null },
-            { false, false, false, false, "yyyy-MM-dd HH:mm:ss" }
+            { false, false, false, false },
+            { true, false, false, false },
+            { false, true, false, false },
+            { false, false, true, false },
+            { false, false, false, true },
+            { false, false, false, false }
         };
 }

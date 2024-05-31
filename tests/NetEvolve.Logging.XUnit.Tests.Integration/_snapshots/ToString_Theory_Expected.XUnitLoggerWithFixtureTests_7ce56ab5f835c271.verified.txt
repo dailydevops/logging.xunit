@@ -1,0 +1,9 @@
+﻿01/01/2000 [TRCE] This is a Trace.
+01/01/2000 [DBUG] This is a Debug.
+01/01/2000 [INFO] This is an Information.
+01/01/2000 [WARN] This is a Warning.
+01/01/2000 [FAIL] This is an Error.
+01/01/2000 [CRIT] This is a Critical.
+01/01/2000 [CRIT] This is a Critical with exception.
+System.NotImplementedException: The method or operation is not implemented.
+   at NetEvolve.Logging.XUnit.Tests.Integration.TestCase.Run() in {ProjectDirectory}TestCase.cs:line 29

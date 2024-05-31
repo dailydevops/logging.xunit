@@ -8,12 +8,15 @@ using Xunit;
 using Xunit.Abstractions;
 
 #pragma warning disable CA1812
-internal sealed partial class TestFixture : IAsyncLifetime
+public sealed partial class TestFixture : IAsyncLifetime
 {
     private readonly ILoggerFactory _loggerFactory;
 
     private readonly ILogger _logger;
     private readonly IMessageSink _messageSink;
+
+    public string TimestampFormat { get; } = /*language=datetime*/
+        "d";
 
 #pragma warning disable S1144 // Unused private types or members should be removed
     public TestFixture(IMessageSink messageSink)
