@@ -14,9 +14,13 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         new DateTimeOffset(2000, 1, 1, 13, 37, 00, TimeSpan.FromHours(2))
     );
     private readonly ITestOutputHelper _testOutputHelper;
+    private readonly TestFixture _fixture;
 
-    public XUnitLoggerWithFixtureTests(ITestOutputHelper testOutputHelper) =>
+    public XUnitLoggerWithFixtureTests(ITestOutputHelper testOutputHelper, TestFixture fixture)
+    {
         _testOutputHelper = testOutputHelper;
+        _fixture=fixture;
+    }
 
     [Theory]
     [MemberData(nameof(LoggedMessageOrToStringData))]
