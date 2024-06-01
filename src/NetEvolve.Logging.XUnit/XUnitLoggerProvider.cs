@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using NetEvolve.Arguments;
 using NetEvolve.Logging.Abstractions;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 [ProviderAlias("XUnit")]
 internal sealed class XUnitLoggerProvider
@@ -14,8 +15,7 @@ internal sealed class XUnitLoggerProvider
         ISupportExternalScope,
         IXUnitLoggerOptions
 {
-    private readonly ITestOutputHelper? _testOutputHelper;
-    private readonly IMessageSink? _messageSink;
+    private readonly Action<string?> _writeToAction;
 
     private readonly IExternalScopeProvider _scopeProvider = NullExternalScopeProvider.Instance;
     private readonly XUnitLoggerOptions _options;
@@ -55,7 +55,7 @@ internal sealed class XUnitLoggerProvider
         _timeProvider = timeProvider;
 
         _loggers = new ConcurrentDictionary<string, XUnitLogger>(StringComparer.Ordinal);
-        _messageSink = messageSink;
+        _writeToAction = message => messageSink.OnMessage(new DiagnosticMessage(message));
     }
 
     public XUnitLoggerProvider(
@@ -74,7 +74,7 @@ internal sealed class XUnitLoggerProvider
         _timeProvider = timeProvider;
 
         _loggers = new ConcurrentDictionary<string, XUnitLogger>(StringComparer.Ordinal);
-        _testOutputHelper = testOutputHelper;
+        _writeToAction = testOutputHelper.WriteLine;
     }
 
     /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
@@ -84,30 +84,7 @@ internal sealed class XUnitLoggerProvider
 
         return _loggers.GetOrAdd(
             $"{categoryName}_Default",
-            name =>
-            {
-                if (_testOutputHelper is not null)
-                {
-                    return XUnitLogger.CreateLogger(
-                        _testOutputHelper,
-                        _timeProvider,
-                        _scopeProvider,
-                        this
-                    );
-                }
-
-                if (_messageSink is not null)
-                {
-                    return XUnitLogger.CreateLogger(
-                        _messageSink,
-                        _timeProvider,
-                        _scopeProvider,
-                        this
-                    );
-                }
-
-                throw new InvalidOperationException();
-            }
+            name => new XUnitLogger(_writeToAction, _timeProvider, _scopeProvider, this)
         );
     }
 
@@ -116,30 +93,7 @@ internal sealed class XUnitLoggerProvider
         where T : notnull =>
         _loggers.GetOrAdd(
             $"{typeof(T).FullName}_Default",
-            _ =>
-            {
-                if (_testOutputHelper is not null)
-                {
-                    return XUnitLogger.CreateLogger<T>(
-                        _testOutputHelper,
-                        _timeProvider,
-                        _scopeProvider,
-                        this
-                    );
-                }
-
-                if (_messageSink is not null)
-                {
-                    return XUnitLogger.CreateLogger<T>(
-                        _messageSink,
-                        _timeProvider,
-                        _scopeProvider,
-                        this
-                    );
-                }
-
-                throw new InvalidOperationException();
-            }
+            _ => new XUnitLogger<T>(_writeToAction, _timeProvider, _scopeProvider, this)
         );
 
     /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
