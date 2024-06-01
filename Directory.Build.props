@@ -9,6 +9,16 @@
   <Import Project="$(DirEngineeringSettings)src.build.props" Condition=" '$(IsTestableProject)' != 'true' " />
   <Import Project="$(DirEngineeringSettings)tests.build.props" Condition=" '$(IsTestableProject)' == 'true' " />
 
+  <PropertyGroup Label="Package settings">
+    <Title>$(MSBuildProjectName)</Title>
+    <Description>Extensions for `ILogger` implementations to log messages to xUnit test output.</Description>
+    <RepositoryUrl>https://github.com/dailydevops/logging.xunit</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dailydevops/logging.xunit.git</PackageProjectUrl>
+    <PackageReleaseNotes>$(RepositoryUrl)/releases/tag/$(Version)</PackageReleaseNotes>
+    <PackageTags>logging;provider;xunit</PackageTags>
+    <CopyrightYearStart>2024</CopyrightYearStart>
+  </PropertyGroup>
+
   <PropertyGroup>
     <ProjectTargetFrameworks>net6.0;net7.0;net8.0</ProjectTargetFrameworks>
     <TestTargetFrameworks>net6.0;net7.0;net8.0</TestTargetFrameworks>
