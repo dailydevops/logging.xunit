@@ -10,7 +10,9 @@ internal static class ModuleInitializer
     [ModuleInitializer]
     public static void Init()
     {
-        // VerifierSettings.AutoVerify(includeBuildServer: false);
+#if DEBUG
+        VerifierSettings.AutoVerify(includeBuildServer: false);
+#endif
 
         Verifier.DerivePathInfo(
             (sourceFile, projectDirectory, method, type) =>
