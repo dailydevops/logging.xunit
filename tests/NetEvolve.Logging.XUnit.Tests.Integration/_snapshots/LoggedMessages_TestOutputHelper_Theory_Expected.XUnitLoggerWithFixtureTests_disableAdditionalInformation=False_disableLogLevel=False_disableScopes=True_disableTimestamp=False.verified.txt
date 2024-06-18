@@ -1,0 +1,135 @@
+﻿[
+  {
+    Timestamp: DateTimeOffset_1,
+    Message: Trace,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Debug,
+    EventId: {
+      Id: 1,
+      Name: LogDebug
+    },
+    Message: Debug,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Information,
+    EventId: {
+      Id: 2,
+      Name: LogInformation
+    },
+    Message: Information,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Warning,
+    EventId: {
+      Id: 3,
+      Name: LogWarning
+    },
+    Message: Warning,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Error,
+    EventId: {
+      Id: 4,
+      Name: LogError
+    },
+    Message: Error,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Critical,
+    EventId: {
+      Id: 5,
+      Name: LogCritical
+    },
+    Message: Critical,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  }
+]

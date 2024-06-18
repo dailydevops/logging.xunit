@@ -1,7 +1,6 @@
 ﻿namespace NetEvolve.Logging.XUnit.Tests.Integration;
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
@@ -18,6 +17,21 @@ public partial class XUnitLoggerTests
 
     public XUnitLoggerTests(ITestOutputHelper testOutputHelper) =>
         _testOutputHelper = testOutputHelper;
+
+    [Fact]
+    public void LoggedMessages_Empty_Expected()
+    {
+        // Arrange
+        var logger = XUnitLogger.CreateLogger(_testOutputHelper);
+
+        // Act
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+        logger.Log(LogLevel.None, "No Message.");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
+
+        // Assert
+        Assert.Empty(logger.LoggedMessages);
+    }
 
     [Theory]
     [MemberData(nameof(LoggedMessageOrToStringData))]
@@ -37,13 +51,13 @@ public partial class XUnitLoggerTests
             DisableTimestamp = disableTimestamp,
             TimestampFormat = formatTimestamp!
         };
-        var logger = XUnitLogger.CreateLogger<TestCase>(
+        var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
             _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
-        var @case = new TestCase(logger);
+        var @case = new TestCase1(logger);
 
         // Act
         @case.Run();
@@ -51,7 +65,6 @@ public partial class XUnitLoggerTests
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
-            .UseDirectory("_snapshots")
             .UseHashedParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -79,13 +92,13 @@ public partial class XUnitLoggerTests
             DisableTimestamp = disableTimestamp,
             TimestampFormat = formatTimestamp!
         };
-        var logger = XUnitLogger.CreateLogger<TestCase>(
+        var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
             _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
-        var @case = new TestCase(logger);
+        var @case = new TestCase1(logger);
 
         // Act
         @case.Run();
@@ -93,7 +106,6 @@ public partial class XUnitLoggerTests
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
-            .UseDirectory("_snapshots")
             .UseHashedParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -113,36 +125,4 @@ public partial class XUnitLoggerTests
             { false, false, false, true, null },
             { false, false, false, false, "yyyy-MM-dd HH:mm:ss" }
         };
-
-    private sealed partial class TestCase
-    {
-        private readonly ILogger<TestCase> _logger;
-
-        public TestCase(ILogger<TestCase> logger) => _logger = logger;
-
-        public void Run()
-        {
-            using var scopeNull = _logger.BeginScope((string)null!);
-            using var scopeOne = _logger.BeginScope(
-                new Dictionary<string, object?> { { "MethodName", nameof(Run) } }
-            );
-#pragma warning disable CA1848 // Use the LoggerMessage delegates
-            try
-            {
-                _logger.LogTrace("This is a Trace.");
-                _logger.LogDebug("This is a Debug.");
-                _logger.LogInformation("This is an Information.");
-                _logger.LogWarning("This is a Warning.");
-                _logger.LogError("This is an Error.");
-                _logger.LogCritical("This is a Critical.");
-
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex, "This is a Critical with exception.");
-            }
-#pragma warning restore CA1848 // Use the LoggerMessage delegates
-        }
-    }
 }

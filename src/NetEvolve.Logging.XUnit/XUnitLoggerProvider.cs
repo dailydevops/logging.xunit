@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using NetEvolve.Arguments;
 using NetEvolve.Logging.Abstractions;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 [ProviderAlias("XUnit")]
 internal sealed class XUnitLoggerProvider
@@ -14,7 +15,8 @@ internal sealed class XUnitLoggerProvider
         ISupportExternalScope,
         IXUnitLoggerOptions
 {
-    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly Action<string?> _writeToAction;
+
     private readonly IExternalScopeProvider _scopeProvider = NullExternalScopeProvider.Instance;
     private readonly XUnitLoggerOptions _options;
     private readonly ConcurrentDictionary<string, XUnitLogger> _loggers;
@@ -38,6 +40,25 @@ internal sealed class XUnitLoggerProvider
     public string TimestampFormat => _options.TimestampFormat;
 
     public XUnitLoggerProvider(
+        IMessageSink messageSink,
+        TimeProvider timeProvider,
+        IExternalScopeProvider? scopeProvider = null,
+        XUnitLoggerOptions? options = null
+    )
+    {
+        Argument.ThrowIfNull(messageSink);
+        Argument.ThrowIfNull(timeProvider);
+
+        _scopeProvider = scopeProvider ?? new LoggerExternalScopeProvider();
+        _options = options ?? XUnitLoggerOptions.Default;
+
+        _timeProvider = timeProvider;
+
+        _loggers = new ConcurrentDictionary<string, XUnitLogger>(StringComparer.Ordinal);
+        _writeToAction = message => messageSink.OnMessage(new DiagnosticMessage(message));
+    }
+
+    public XUnitLoggerProvider(
         ITestOutputHelper testOutputHelper,
         TimeProvider timeProvider,
         IExternalScopeProvider? scopeProvider = null,
@@ -53,7 +74,7 @@ internal sealed class XUnitLoggerProvider
         _timeProvider = timeProvider;
 
         _loggers = new ConcurrentDictionary<string, XUnitLogger>(StringComparer.Ordinal);
-        _testOutputHelper = testOutputHelper;
+        _writeToAction = testOutputHelper.WriteLine;
     }
 
     /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
@@ -63,7 +84,7 @@ internal sealed class XUnitLoggerProvider
 
         return _loggers.GetOrAdd(
             $"{categoryName}_Default",
-            name => XUnitLogger.CreateLogger(_testOutputHelper, _timeProvider, _scopeProvider, this)
+            name => new XUnitLogger(_writeToAction, _timeProvider, _scopeProvider, this)
         );
     }
 
@@ -72,56 +93,8 @@ internal sealed class XUnitLoggerProvider
         where T : notnull =>
         _loggers.GetOrAdd(
             $"{typeof(T).FullName}_Default",
-            _ => XUnitLogger.CreateLogger<T>(_testOutputHelper, _timeProvider, _scopeProvider, this)
+            _ => new XUnitLogger<T>(_writeToAction, _timeProvider, _scopeProvider, this)
         );
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger(string categoryName, IMessageSink messageSink)
-    {
-        Argument.ThrowIfNullOrWhiteSpace(categoryName);
-        Argument.ThrowIfNull(messageSink);
-
-        return _loggers.GetOrAdd(
-            $"{categoryName}_IMessageSink",
-            name => XUnitLogger.CreateLogger(messageSink, _timeProvider, _scopeProvider, this)
-        );
-    }
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger<T>(IMessageSink messageSink)
-        where T : notnull
-    {
-        Argument.ThrowIfNull(messageSink);
-
-        return _loggers.GetOrAdd(
-            $"{typeof(T).FullName}_IMessageSink",
-            _ => XUnitLogger.CreateLogger<T>(messageSink, _timeProvider, _scopeProvider, this)
-        );
-    }
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger(string categoryName, ITestOutputHelper testOutputHelper)
-    {
-        Argument.ThrowIfNullOrWhiteSpace(categoryName);
-        Argument.ThrowIfNull(testOutputHelper);
-
-        return _loggers.GetOrAdd(
-            $"{categoryName}_ITestOutputHelper",
-            name => XUnitLogger.CreateLogger(testOutputHelper, _timeProvider, _scopeProvider, this)
-        );
-    }
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger<T>(ITestOutputHelper testOutputHelper)
-        where T : notnull
-    {
-        Argument.ThrowIfNull(testOutputHelper);
-
-        return _loggers.GetOrAdd(
-            $"{typeof(T).FullName}_ITestOutputHelper",
-            _ => XUnitLogger.CreateLogger<T>(testOutputHelper, _timeProvider, _scopeProvider, this)
-        );
-    }
 
     /// <inheritdoc cref="ISupportExternalScope.SetScopeProvider(IExternalScopeProvider)"/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)

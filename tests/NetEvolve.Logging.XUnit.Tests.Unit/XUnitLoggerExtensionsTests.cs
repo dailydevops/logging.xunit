@@ -32,6 +32,8 @@ public class XUnitLoggerExtensionsTests
         // Arrange
         var services = new ServiceCollection();
 
+        ITestOutputHelper output = null!;
+
         // Act & Assert
         _ = Assert.Throws<ArgumentNullException>(
             "testOutputHelper",
@@ -39,7 +41,7 @@ public class XUnitLoggerExtensionsTests
             {
                 _ = services.AddLogging(builder =>
                 {
-                    _ = builder.AddXUnit(null!);
+                    _ = builder.AddXUnit(output);
                 });
             }
         );

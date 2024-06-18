@@ -65,7 +65,12 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         Argument.ThrowIfNull(messageSink);
         Argument.ThrowIfNull(timeProvider);
 
-        return new XUnitLogger(messageSink, timeProvider, scopeProvider, options);
+        return new XUnitLogger(
+            message => _ = messageSink.OnMessage(new DiagnosticMessage(message)),
+            timeProvider,
+            scopeProvider,
+            options
+        );
     }
 
     /// <summary>
@@ -81,7 +86,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull => CreateLogger<T>(messageSink, scopeProvider, options);
+        where T : notnull =>
+        CreateLogger<T>(messageSink, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
@@ -98,7 +104,13 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull => new XUnitLogger<T>(messageSink, timeProvider, scopeProvider, options);
+        where T : notnull
+    {
+        Argument.ThrowIfNull(messageSink);
+        Argument.ThrowIfNull(timeProvider);
+
+        return new XUnitLogger<T>(messageSink, timeProvider, scopeProvider, options);
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger"/>.
@@ -131,7 +143,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         Argument.ThrowIfNull(testOutputHelper);
         Argument.ThrowIfNull(timeProvider);
 
-        return new XUnitLogger(testOutputHelper, timeProvider, scopeProvider, options);
+        return new XUnitLogger(testOutputHelper.WriteLine, timeProvider, scopeProvider, options);
     }
 
     /// <summary>
@@ -165,36 +177,22 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull =>
-        new XUnitLogger<T>(testOutputHelper, timeProvider, scopeProvider, options);
-
-    private protected XUnitLogger(
-        ITestOutputHelper testOutputHelper,
-        TimeProvider timeProvider,
-        IExternalScopeProvider? scopeProvider,
-        IXUnitLoggerOptions? options
-    )
+        where T : notnull
     {
         Argument.ThrowIfNull(testOutputHelper);
         Argument.ThrowIfNull(timeProvider);
 
-        ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
-        _timeProvider = timeProvider;
-        _options = options ?? XUnitLoggerOptions.Default;
-
-        _loggedMessages = [];
-
-        _writeToLog = testOutputHelper.WriteLine;
+        return new XUnitLogger<T>(testOutputHelper, timeProvider, scopeProvider, options);
     }
 
-    private protected XUnitLogger(
-        IMessageSink messageSink,
+    internal XUnitLogger(
+        Action<string> writeToAction,
         TimeProvider timeProvider,
         IExternalScopeProvider? scopeProvider,
         IXUnitLoggerOptions? options
     )
     {
-        Argument.ThrowIfNull(messageSink);
+        Argument.ThrowIfNull(writeToAction);
         Argument.ThrowIfNull(timeProvider);
 
         ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
@@ -203,7 +201,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
 
         _loggedMessages = [];
 
-        _writeToLog = message => _ = messageSink.OnMessage(new DiagnosticMessage(message));
+        _writeToLog = writeToAction;
     }
 
     /// <inheritdoc cref="ILogger.BeginScope{TState}(TState)"/>

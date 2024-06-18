@@ -1,0 +1,6 @@
+﻿[TRCE] Trace
+[DBUG] Debug
+[INFO] Information
+[WARN] Warning
+[FAIL] Error
+[CRIT] Critical
