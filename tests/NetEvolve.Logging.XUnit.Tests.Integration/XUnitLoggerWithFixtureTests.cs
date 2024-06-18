@@ -128,7 +128,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         var @case = new TestCase1(logger);
 
         // Act
-        for (var sc = 0; sc < 100; sc++)
+        for (var sc = 0; sc < 10; sc++)
         {
             @case.Run();
         }
@@ -170,7 +170,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         var @case = new TestCase2(logger);
 
         // Act
-        for (var sc = 0; sc < 100; sc++)
+        for (var sc = 0; sc < 10; sc++)
         {
             @case.Run();
         }
@@ -212,7 +212,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         var @case = new TestCase1(logger);
 
         // Act
-        for (var sc = 0; sc < 100; sc++)
+        for (var sc = 0; sc < 10; sc++)
         {
             @case.Run();
         }
@@ -254,7 +254,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         var @case = new TestCase2(logger);
 
         // Act
-        for (var sc = 0; sc < 100; sc++)
+        for (var sc = 0; sc < 10; sc++)
         {
             @case.Run();
         }

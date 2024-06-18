@@ -8,7 +8,10 @@ using VerifyXunit;
 internal static class ModuleInitializer
 {
     [ModuleInitializer]
-    public static void Init() =>
+    public static void Init()
+    {
+        // VerifierSettings.AutoVerify(includeBuildServer: false);
+
         Verifier.DerivePathInfo(
             (sourceFile, projectDirectory, method, type) =>
             {
@@ -17,4 +20,5 @@ internal static class ModuleInitializer
                 return new(snapshots, type.Name, method.Name);
             }
         );
+    }
 }
