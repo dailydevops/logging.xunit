@@ -16,6 +16,8 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly TestFixture _fixture;
 
+    private readonly string _timestampFormat = "d";
+
     public XUnitLoggerWithFixtureTests(ITestOutputHelper testOutputHelper, TestFixture fixture)
     {
         _testOutputHelper = testOutputHelper;
@@ -24,7 +26,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
 
     [Theory]
     [MemberData(nameof(LoggedMessageOrToStringData))]
-    public async Task LoggedMessages_Theory_Expected(
+    public async Task LoggedMessages_TestOutputHelper_Theory_Expected(
         bool disableAdditionalInformation,
         bool disableLogLevel,
         bool disableScopes,
@@ -37,15 +39,15 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _fixture.TimestampFormat
+            TimestampFormat = _timestampFormat
         };
-        var logger = XUnitLogger.CreateLogger<TestCase>(
+        var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
             _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
-        var @case = new TestCase(logger);
+        var @case = new TestCase1(logger);
 
         // Act
         @case.Run();
@@ -53,8 +55,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
-            .UseDirectory("_snapshots")
-            .UseHashedParameters(
+            .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
                 disableScopes,
@@ -64,7 +65,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
 
     [Theory]
     [MemberData(nameof(LoggedMessageOrToStringData))]
-    public async Task ToString_Theory_Expected(
+    public async Task ToString_TestOutputHelper_Theory_Expected(
         bool disableAdditionalInformation,
         bool disableLogLevel,
         bool disableScopes,
@@ -77,15 +78,15 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _fixture.TimestampFormat
+            TimestampFormat = _timestampFormat
         };
-        var logger = XUnitLogger.CreateLogger<TestCase>(
+        var logger = XUnitLogger.CreateLogger<TestCase2>(
             _testOutputHelper,
             _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
-        var @case = new TestCase(logger);
+        var @case = new TestCase2(logger);
 
         // Act
         @case.Run();
@@ -93,8 +94,175 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
-            .UseDirectory("_snapshots")
-            .UseHashedParameters(
+            .UseParameters(
+                disableAdditionalInformation,
+                disableLogLevel,
+                disableScopes,
+                disableTimestamp
+            );
+    }
+
+    [Theory]
+    [MemberData(nameof(LoggedMessageOrToStringData))]
+    public async Task LoggedMessages_MessageSink_Theory_Expected(
+        bool disableAdditionalInformation,
+        bool disableLogLevel,
+        bool disableScopes,
+        bool disableTimestamp
+    )
+    {
+        var options = new XUnitLoggerOptions
+        {
+            DisableAdditionalInformation = disableAdditionalInformation,
+            DisableLogLevel = disableLogLevel,
+            DisableScopes = disableScopes,
+            DisableTimestamp = disableTimestamp,
+            TimestampFormat = _timestampFormat
+        };
+        var logger = XUnitLogger.CreateLogger(
+            _fixture.MessageSink,
+            _fakeTimeProvider,
+            new LoggerExternalScopeProvider(),
+            options
+        );
+        var @case = new TestCase1(logger);
+
+        // Act
+        for (var sc = 0; sc < 100; sc++)
+        {
+            @case.Run();
+        }
+
+        // Assert
+        _ = await Verifier
+            .Verify(logger.LoggedMessages)
+            .UseParameters(
+                disableAdditionalInformation,
+                disableLogLevel,
+                disableScopes,
+                disableTimestamp
+            );
+    }
+
+    [Theory]
+    [MemberData(nameof(LoggedMessageOrToStringData))]
+    public async Task ToString_MessageSink_Theory_Expected(
+        bool disableAdditionalInformation,
+        bool disableLogLevel,
+        bool disableScopes,
+        bool disableTimestamp
+    )
+    {
+        var options = new XUnitLoggerOptions
+        {
+            DisableAdditionalInformation = disableAdditionalInformation,
+            DisableLogLevel = disableLogLevel,
+            DisableScopes = disableScopes,
+            DisableTimestamp = disableTimestamp,
+            TimestampFormat = _timestampFormat
+        };
+        var logger = XUnitLogger.CreateLogger(
+            _fixture.MessageSink,
+            _fakeTimeProvider,
+            new LoggerExternalScopeProvider(),
+            options
+        );
+        var @case = new TestCase2(logger);
+
+        // Act
+        for (var sc = 0; sc < 100; sc++)
+        {
+            @case.Run();
+        }
+
+        // Assert
+        _ = await Verifier
+            .Verify(logger.ToString())
+            .UseParameters(
+                disableAdditionalInformation,
+                disableLogLevel,
+                disableScopes,
+                disableTimestamp
+            );
+    }
+
+    [Theory]
+    [MemberData(nameof(LoggedMessageOrToStringData))]
+    public async Task LoggedMessages_MessageSinkGeneric_Theory_Expected(
+        bool disableAdditionalInformation,
+        bool disableLogLevel,
+        bool disableScopes,
+        bool disableTimestamp
+    )
+    {
+        var options = new XUnitLoggerOptions
+        {
+            DisableAdditionalInformation = disableAdditionalInformation,
+            DisableLogLevel = disableLogLevel,
+            DisableScopes = disableScopes,
+            DisableTimestamp = disableTimestamp,
+            TimestampFormat = _timestampFormat
+        };
+        var logger = XUnitLogger.CreateLogger<TestCase1>(
+            _fixture.MessageSink,
+            _fakeTimeProvider,
+            new LoggerExternalScopeProvider(),
+            options
+        );
+        var @case = new TestCase1(logger);
+
+        // Act
+        for (var sc = 0; sc < 100; sc++)
+        {
+            @case.Run();
+        }
+
+        // Assert
+        _ = await Verifier
+            .Verify(logger.LoggedMessages)
+            .UseParameters(
+                disableAdditionalInformation,
+                disableLogLevel,
+                disableScopes,
+                disableTimestamp
+            );
+    }
+
+    [Theory]
+    [MemberData(nameof(LoggedMessageOrToStringData))]
+    public async Task ToString_MessageSinkGeneric_Theory_Expected(
+        bool disableAdditionalInformation,
+        bool disableLogLevel,
+        bool disableScopes,
+        bool disableTimestamp
+    )
+    {
+        var options = new XUnitLoggerOptions
+        {
+            DisableAdditionalInformation = disableAdditionalInformation,
+            DisableLogLevel = disableLogLevel,
+            DisableScopes = disableScopes,
+            DisableTimestamp = disableTimestamp,
+            TimestampFormat = _timestampFormat
+        };
+        var logger = XUnitLogger.CreateLogger<TestCase2>(
+            _fixture.MessageSink,
+            _fakeTimeProvider,
+            new LoggerExternalScopeProvider(),
+            options
+        );
+        var @case = new TestCase2(logger);
+
+        // Act
+        for (var sc = 0; sc < 100; sc++)
+        {
+            @case.Run();
+        }
+
+        // Assert
+        _ = await Verifier
+            .Verify(logger.ToString())
+            .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
                 disableScopes,

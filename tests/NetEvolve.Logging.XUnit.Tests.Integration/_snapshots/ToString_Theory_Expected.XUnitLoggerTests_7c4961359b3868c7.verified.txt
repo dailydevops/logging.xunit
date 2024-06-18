@@ -1,9 +1,6 @@
-﻿2000-01-01T13:37:00.0000000+02:00 This is a Trace.
-2000-01-01T13:37:00.0000000+02:00 This is a Debug.
-2000-01-01T13:37:00.0000000+02:00 This is an Information.
-2000-01-01T13:37:00.0000000+02:00 This is a Warning.
-2000-01-01T13:37:00.0000000+02:00 This is an Error.
-2000-01-01T13:37:00.0000000+02:00 This is a Critical.
-2000-01-01T13:37:00.0000000+02:00 This is a Critical with exception.
-System.NotImplementedException: The method or operation is not implemented.
-   at NetEvolve.Logging.XUnit.Tests.Integration.TestCase.Run() in {ProjectDirectory}TestCase.cs:line 29
+﻿2000-01-01T13:37:00.0000000+02:00 Trace
+2000-01-01T13:37:00.0000000+02:00 Debug
+2000-01-01T13:37:00.0000000+02:00 Information
+2000-01-01T13:37:00.0000000+02:00 Warning
+2000-01-01T13:37:00.0000000+02:00 Error
+2000-01-01T13:37:00.0000000+02:00 Critical

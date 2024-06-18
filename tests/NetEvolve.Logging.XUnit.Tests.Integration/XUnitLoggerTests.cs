@@ -18,6 +18,21 @@ public partial class XUnitLoggerTests
     public XUnitLoggerTests(ITestOutputHelper testOutputHelper) =>
         _testOutputHelper = testOutputHelper;
 
+    [Fact]
+    public void LoggedMessages_Empty_Expected()
+    {
+        // Arrange
+        var logger = XUnitLogger.CreateLogger(_testOutputHelper);
+
+        // Act
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+        logger.Log(LogLevel.None, "No Message.");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
+
+        // Assert
+        Assert.Empty(logger.LoggedMessages);
+    }
+
     [Theory]
     [MemberData(nameof(LoggedMessageOrToStringData))]
     public async Task LoggedMessages_Theory_Expected(
@@ -36,13 +51,13 @@ public partial class XUnitLoggerTests
             DisableTimestamp = disableTimestamp,
             TimestampFormat = formatTimestamp!
         };
-        var logger = XUnitLogger.CreateLogger<TestCase>(
+        var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
             _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
-        var @case = new TestCase(logger);
+        var @case = new TestCase1(logger);
 
         // Act
         @case.Run();
@@ -77,13 +92,13 @@ public partial class XUnitLoggerTests
             DisableTimestamp = disableTimestamp,
             TimestampFormat = formatTimestamp!
         };
-        var logger = XUnitLogger.CreateLogger<TestCase>(
+        var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
             _fakeTimeProvider,
             new LoggerExternalScopeProvider(),
             options
         );
-        var @case = new TestCase(logger);
+        var @case = new TestCase1(logger);
 
         // Act
         @case.Run();

@@ -45,17 +45,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IMessageSink messageSink,
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
-    )
-    {
-        Argument.ThrowIfNull(messageSink);
-
-        return new XUnitLogger(
-            message => _ = messageSink.OnMessage(new DiagnosticMessage(message)),
-            TimeProvider.System,
-            scopeProvider,
-            options
-        );
-    }
+    ) => CreateLogger(messageSink, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger"/>.
@@ -96,12 +86,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull
-    {
-        Argument.ThrowIfNull(messageSink);
-
-        return new XUnitLogger<T>(messageSink, TimeProvider.System, scopeProvider, options);
-    }
+        where T : notnull =>
+        CreateLogger<T>(messageSink, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
@@ -137,17 +123,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         ITestOutputHelper testOutputHelper,
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
-    )
-    {
-        Argument.ThrowIfNull(testOutputHelper);
-
-        return new XUnitLogger(
-            testOutputHelper.WriteLine,
-            TimeProvider.System,
-            scopeProvider,
-            options
-        );
-    }
+    ) => CreateLogger(testOutputHelper, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger"/>.
@@ -183,12 +159,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull
-    {
-        Argument.ThrowIfNull(testOutputHelper);
-
-        return new XUnitLogger<T>(testOutputHelper, TimeProvider.System, scopeProvider, options);
-    }
+        where T : notnull =>
+        CreateLogger<T>(testOutputHelper, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.

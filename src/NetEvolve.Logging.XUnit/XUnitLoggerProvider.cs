@@ -96,54 +96,6 @@ internal sealed class XUnitLoggerProvider
             _ => new XUnitLogger<T>(_writeToAction, _timeProvider, _scopeProvider, this)
         );
 
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger(string categoryName, IMessageSink messageSink)
-    {
-        Argument.ThrowIfNullOrWhiteSpace(categoryName);
-        Argument.ThrowIfNull(messageSink);
-
-        return _loggers.GetOrAdd(
-            $"{categoryName}_IMessageSink",
-            name => XUnitLogger.CreateLogger(messageSink, _timeProvider, _scopeProvider, this)
-        );
-    }
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger<T>(IMessageSink messageSink)
-        where T : notnull
-    {
-        Argument.ThrowIfNull(messageSink);
-
-        return _loggers.GetOrAdd(
-            $"{typeof(T).FullName}_IMessageSink",
-            _ => XUnitLogger.CreateLogger<T>(messageSink, _timeProvider, _scopeProvider, this)
-        );
-    }
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger(string categoryName, ITestOutputHelper testOutputHelper)
-    {
-        Argument.ThrowIfNullOrWhiteSpace(categoryName);
-        Argument.ThrowIfNull(testOutputHelper);
-
-        return _loggers.GetOrAdd(
-            $"{categoryName}_ITestOutputHelper",
-            name => XUnitLogger.CreateLogger(testOutputHelper, _timeProvider, _scopeProvider, this)
-        );
-    }
-
-    /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
-    public ILogger CreateLogger<T>(ITestOutputHelper testOutputHelper)
-        where T : notnull
-    {
-        Argument.ThrowIfNull(testOutputHelper);
-
-        return _loggers.GetOrAdd(
-            $"{typeof(T).FullName}_ITestOutputHelper",
-            _ => XUnitLogger.CreateLogger<T>(testOutputHelper, _timeProvider, _scopeProvider, this)
-        );
-    }
-
     /// <inheritdoc cref="ISupportExternalScope.SetScopeProvider(IExternalScopeProvider)"/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)
     {

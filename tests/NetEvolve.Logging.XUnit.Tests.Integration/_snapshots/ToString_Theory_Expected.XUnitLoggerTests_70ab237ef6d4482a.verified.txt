@@ -1,9 +1,6 @@
-﻿[TRCE] This is a Trace.
-[DBUG] This is a Debug.
-[INFO] This is an Information.
-[WARN] This is a Warning.
-[FAIL] This is an Error.
-[CRIT] This is a Critical.
-[CRIT] This is a Critical with exception.
-System.NotImplementedException: The method or operation is not implemented.
-   at NetEvolve.Logging.XUnit.Tests.Integration.TestCase.Run() in {ProjectDirectory}TestCase.cs:line 29
+﻿[TRCE] Trace
+[DBUG] Debug
+[INFO] Information
+[WARN] Warning
+[FAIL] Error
+[CRIT] Critical

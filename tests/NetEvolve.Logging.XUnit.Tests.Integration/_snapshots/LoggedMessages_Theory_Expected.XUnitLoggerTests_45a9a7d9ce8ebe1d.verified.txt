@@ -1,76 +1,134 @@
 ﻿[
   {
     Timestamp: DateTimeOffset_1,
-    Message: This is a Trace.,
+    Message: Trace,
     Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
       {
-        MethodName: Run
+        ExectionTime: DateTimeOffset_3
       }
     ]
   },
   {
     Timestamp: DateTimeOffset_1,
     LogLevel: Debug,
-    Message: This is a Debug.,
+    EventId: {
+      Id: 1,
+      Name: LogDebug
+    },
+    Message: Debug,
     Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
       {
-        MethodName: Run
+        ExectionTime: DateTimeOffset_3
       }
     ]
   },
   {
     Timestamp: DateTimeOffset_1,
     LogLevel: Information,
-    Message: This is an Information.,
+    EventId: {
+      Id: 2,
+      Name: LogInformation
+    },
+    Message: Information,
     Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
       {
-        MethodName: Run
+        ExectionTime: DateTimeOffset_3
       }
     ]
   },
   {
     Timestamp: DateTimeOffset_1,
     LogLevel: Warning,
-    Message: This is a Warning.,
+    EventId: {
+      Id: 3,
+      Name: LogWarning
+    },
+    Message: Warning,
     Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
       {
-        MethodName: Run
+        ExectionTime: DateTimeOffset_3
       }
     ]
   },
   {
     Timestamp: DateTimeOffset_1,
     LogLevel: Error,
-    Message: This is an Error.,
-    Scopes: [
-      {
-        MethodName: Run
-      }
-    ]
-  },
-  {
-    Timestamp: DateTimeOffset_1,
-    LogLevel: Critical,
-    Message: This is a Critical.,
-    Scopes: [
-      {
-        MethodName: Run
-      }
-    ]
-  },
-  {
-    Timestamp: DateTimeOffset_1,
-    LogLevel: Critical,
-    Message: This is a Critical with exception.,
-    Exception: {
-      $type: NotImplementedException,
-      Type: NotImplementedException,
-      Message: The method or operation is not implemented.,
-      StackTrace: at NetEvolve.Logging.XUnit.Tests.Integration.TestCase.Run()
+    EventId: {
+      Id: 4,
+      Name: LogError
     },
+    Message: Error,
     Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
       {
-        MethodName: Run
+        ExectionTime: DateTimeOffset_3
+      }
+    ]
+  },
+  {
+    Timestamp: DateTimeOffset_1,
+    LogLevel: Critical,
+    EventId: {
+      Id: 5,
+      Name: LogCritical
+    },
+    Message: Critical,
+    Scopes: [
+      Scope,
+      [
+        {
+          Now: DateTimeOffset_2
+        },
+        {
+          {OriginalFormat}: Execution {Now}
+        }
+      ],
+      {
+        ExectionTime: DateTimeOffset_3
       }
     ]
   }

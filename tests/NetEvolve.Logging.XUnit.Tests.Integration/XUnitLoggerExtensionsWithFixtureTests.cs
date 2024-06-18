@@ -7,12 +7,11 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
-public partial class XUnitLoggerExtensionsTests
+public partial class XUnitLoggerExtensionsWithFixtureTests : IClassFixture<TestFixture>
 {
-    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly TestFixture _fixture;
 
-    public XUnitLoggerExtensionsTests(ITestOutputHelper testOutputHelper) =>
-        _testOutputHelper = testOutputHelper;
+    public XUnitLoggerExtensionsWithFixtureTests(TestFixture fixture) => _fixture = fixture;
 
     [Theory]
     [MemberData(nameof(AddXUnitData))]
@@ -20,7 +19,7 @@ public partial class XUnitLoggerExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection()
-            .AddLogging(builder => _ = builder.AddXUnit(_testOutputHelper, options))
+            .AddLogging(builder => _ = builder.AddXUnit(_fixture.MessageSink, options))
             .AddSingleton<TestCase1>();
         using var serviceProvider = services.BuildServiceProvider();
 
@@ -41,7 +40,7 @@ public partial class XUnitLoggerExtensionsTests
     {
         // Arrange
         var services = new ServiceCollection()
-            .AddLogging(builder => _ = builder.AddXUnit(_testOutputHelper))
+            .AddLogging(builder => _ = builder.AddXUnit(_fixture.MessageSink))
             .AddSingleton<TestCase2>();
         using var serviceProvider = services.BuildServiceProvider();
 
