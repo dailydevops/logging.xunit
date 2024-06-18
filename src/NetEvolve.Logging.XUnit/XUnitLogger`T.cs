@@ -22,7 +22,8 @@ public sealed class XUnitLogger<T> : XUnitLogger, ILogger<T>
             timeProvider,
             scopeProvider,
             options
-        ) { }
+        )
+    { }
 
     internal XUnitLogger(
         ITestOutputHelper testOutputHelper,
@@ -37,7 +38,8 @@ public sealed class XUnitLogger<T> : XUnitLogger, ILogger<T>
             timeProvider,
             scopeProvider,
             options
-        ) { }
+        )
+    { }
 
     internal XUnitLogger(
         Action<string> writeToAction,
