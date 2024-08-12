@@ -23,7 +23,7 @@
     <PackageVersion Include="NetEvolve.Arguments" Version="1.2.50" />
     <PackageVersion Include="NetEvolve.Logging.Abstractions" Version="1.1.0" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
-    <PackageVersion Include="Verify.Xunit" Version="26.1.6" />
+    <PackageVersion Include="Verify.Xunit" Version="26.2.0" />
     <PackageVersion Include="xunit" Version="2.9.0" />
     <PackageVersion Include="xunit.extensibility.core" Version="2.9.0" />
     <PackageVersion Include="xunit.extensibility.execution" Version="2.9.0" />
