@@ -63,6 +63,6 @@ public partial class XUnitLoggerExtensionsWithFixtureTests : IClassFixture<TestF
             XUnitLoggerOptions.Default,
             XUnitLoggerOptions.EnableAllFeatures,
             XUnitLoggerOptions.DisableAllFeatures,
-            XUnitLoggerOptions.Minimal
+            XUnitLoggerOptions.Minimal,
         };
 }

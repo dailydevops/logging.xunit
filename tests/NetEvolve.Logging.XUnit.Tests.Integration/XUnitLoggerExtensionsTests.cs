@@ -64,6 +64,6 @@ public partial class XUnitLoggerExtensionsTests
             XUnitLoggerOptions.Default,
             XUnitLoggerOptions.EnableAllFeatures,
             XUnitLoggerOptions.DisableAllFeatures,
-            XUnitLoggerOptions.Minimal
+            XUnitLoggerOptions.Minimal,
         };
 }

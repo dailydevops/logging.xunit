@@ -360,7 +360,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             LogLevel.Warning => "WARN",
             LogLevel.Error => "FAIL",
             LogLevel.Critical => "CRIT",
-            _ => "NONE"
+            _ => "NONE",
         };
 
     /// <inheritdoc/>
