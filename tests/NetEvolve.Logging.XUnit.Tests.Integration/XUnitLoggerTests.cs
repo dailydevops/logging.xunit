@@ -49,7 +49,7 @@ public partial class XUnitLoggerTests
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = formatTimestamp!
+            TimestampFormat = formatTimestamp!,
         };
         var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
@@ -90,7 +90,7 @@ public partial class XUnitLoggerTests
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = formatTimestamp!
+            TimestampFormat = formatTimestamp!,
         };
         var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
@@ -123,6 +123,6 @@ public partial class XUnitLoggerTests
             { false, true, false, false, null },
             { false, false, true, false, null },
             { false, false, false, true, null },
-            { false, false, false, false, "yyyy-MM-dd HH:mm:ss" }
+            { false, false, false, false, "yyyy-MM-dd HH:mm:ss" },
         };
 }

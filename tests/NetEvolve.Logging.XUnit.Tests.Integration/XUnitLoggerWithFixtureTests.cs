@@ -39,7 +39,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _timestampFormat
+            TimestampFormat = _timestampFormat,
         };
         var logger = XUnitLogger.CreateLogger<TestCase1>(
             _testOutputHelper,
@@ -78,7 +78,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _timestampFormat
+            TimestampFormat = _timestampFormat,
         };
         var logger = XUnitLogger.CreateLogger<TestCase2>(
             _testOutputHelper,
@@ -117,7 +117,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _timestampFormat
+            TimestampFormat = _timestampFormat,
         };
         var logger = XUnitLogger.CreateLogger(
             _fixture.MessageSink,
@@ -159,7 +159,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _timestampFormat
+            TimestampFormat = _timestampFormat,
         };
         var logger = XUnitLogger.CreateLogger(
             _fixture.MessageSink,
@@ -201,7 +201,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _timestampFormat
+            TimestampFormat = _timestampFormat,
         };
         var logger = XUnitLogger.CreateLogger<TestCase1>(
             _fixture.MessageSink,
@@ -243,7 +243,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             DisableLogLevel = disableLogLevel,
             DisableScopes = disableScopes,
             DisableTimestamp = disableTimestamp,
-            TimestampFormat = _timestampFormat
+            TimestampFormat = _timestampFormat,
         };
         var logger = XUnitLogger.CreateLogger<TestCase2>(
             _fixture.MessageSink,
@@ -278,6 +278,6 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
             { false, true, false, false },
             { false, false, true, false },
             { false, false, false, true },
-            { false, false, false, false }
+            { false, false, false, false },
         };
 }

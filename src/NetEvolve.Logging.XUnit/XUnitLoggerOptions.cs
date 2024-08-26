@@ -20,7 +20,7 @@ public class XUnitLoggerOptions : IXUnitLoggerOptions
             DisableAdditionalInformation = true,
             DisableLogLevel = true,
             DisableScopes = true,
-            DisableTimestamp = true
+            DisableTimestamp = true,
         };
 
     /// <summary>
@@ -32,7 +32,7 @@ public class XUnitLoggerOptions : IXUnitLoggerOptions
             DisableAdditionalInformation = false,
             DisableLogLevel = false,
             DisableScopes = false,
-            DisableTimestamp = false
+            DisableTimestamp = false,
         };
 
     /// <summary>
@@ -43,7 +43,7 @@ public class XUnitLoggerOptions : IXUnitLoggerOptions
         {
             DisableAdditionalInformation = true,
             DisableScopes = true,
-            DisableTimestamp = true
+            DisableTimestamp = true,
         };
 
     /// <inheritdoc cref="IXUnitLoggerOptions.DisableAdditionalInformation"/>

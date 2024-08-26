@@ -29,7 +29,7 @@ public partial class XUnitLoggerTests
             { "WARN", LogLevel.Warning },
             { "FAIL", LogLevel.Error },
             { "CRIT", LogLevel.Critical },
-            { "NONE", LogLevel.None }
+            { "NONE", LogLevel.None },
         };
 
     [Fact]
