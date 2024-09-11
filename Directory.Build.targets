@@ -4,9 +4,4 @@
   <Import Project="$(DirEngineeringSettings)src.build.targets" Condition=" '$(IsTestableProject)' != 'true' " />
   <Import Project="$(DirEngineeringSettings)tests.build.targets" Condition=" '$(IsTestableProject)' == 'true' " />
 
-  <PropertyGroup>
-    <!-- Workaround, until https://github.com/GitTools/GitVersion/pull/4206 is released -->
-    <GitVersionTargetFramework>net8.0</GitVersionTargetFramework>
-  </PropertyGroup>
-
 </Project>
