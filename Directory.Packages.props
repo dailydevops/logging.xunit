@@ -21,7 +21,7 @@
     <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="8.9.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageVersion Include="NetEvolve.Arguments" Version="1.2.90" />
-    <PackageVersion Include="NetEvolve.Logging.Abstractions" Version="1.1.70" />
+    <PackageVersion Include="NetEvolve.Logging.Abstractions" Version="1.1.79" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="Verify.Xunit" Version="26.4.4" />
     <PackageVersion Include="xunit" Version="2.9.0" />
