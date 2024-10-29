@@ -65,7 +65,8 @@ public partial class XUnitLoggerTests
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
-            .UseHashedParameters(
+            .HashParameters()
+            .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
                 disableScopes,
@@ -106,7 +107,8 @@ public partial class XUnitLoggerTests
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
-            .UseHashedParameters(
+            .HashParameters()
+            .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
                 disableScopes,
