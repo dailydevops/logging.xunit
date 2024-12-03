@@ -336,14 +336,9 @@ public class XUnitLogger : ILogger, ISupportExternalScope
 
         _ = state.Append('\n').Append(' ', 4).Append("=>").Append(' ');
 
-        if (scope is KeyValuePair<string, object> info)
-        {
-            _ = state.Append(info.Key).Append(": ").Append(info.Value);
-        }
-        else
-        {
-            _ = state.Append(scope);
-        }
+        _ = scope is KeyValuePair<string, object> info
+            ? state.Append(info.Key).Append(": ").Append(info.Value)
+            : state.Append(scope);
     }
 
     private static void AddAdditionalInformation(
@@ -351,6 +346,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         KeyValuePair<string, object?> info
     ) => _ = builder.Append('\n').Append(' ', 4).Append(info.Key).Append(": ").Append(info.Value);
 
+#pragma warning disable IDE0072 // Add missing cases
     internal static string LogLevelToString(LogLevel logLevel) =>
         logLevel switch
         {
@@ -362,6 +358,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             LogLevel.Critical => "CRIT",
             _ => "NONE",
         };
+#pragma warning restore IDE0072 // Add missing cases
 
     /// <inheritdoc/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)
