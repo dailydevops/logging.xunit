@@ -1,7 +1,6 @@
 ﻿namespace NetEvolve.Logging.XUnit.Tests.Integration;
 
 using System;
-using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
 internal sealed partial class TestCase2

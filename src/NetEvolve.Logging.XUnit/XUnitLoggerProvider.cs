@@ -22,7 +22,7 @@ internal sealed class XUnitLoggerProvider
     private readonly ConcurrentDictionary<string, XUnitLogger> _loggers;
     private readonly TimeProvider _timeProvider;
 
-    internal ImmutableList<XUnitLogger> Loggers => _loggers.Values.ToImmutableList();
+    internal ImmutableList<XUnitLogger> Loggers => ImmutableList.CreateRange(_loggers.Values);
 
     /// <inheritdoc cref="IXUnitLoggerOptions.DisableAdditionalInformation"/>
     public bool DisableAdditionalInformation => _options.DisableAdditionalInformation;

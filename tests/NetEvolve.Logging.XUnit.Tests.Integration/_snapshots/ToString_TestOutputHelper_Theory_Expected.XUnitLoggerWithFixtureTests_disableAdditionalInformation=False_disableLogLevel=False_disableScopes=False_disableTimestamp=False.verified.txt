@@ -1,4 +1,4 @@
 ﻿01/01/2000 [INFO] Before 1: (null)
 01/01/2000 [FAIL] Exception: Unknown exception.
 System.InvalidOperationException: Operation is not valid due to the current state of the object.
-   at NetEvolve.Logging.XUnit.Tests.Integration.TestCase2.Run() in {ProjectDirectory}TestCase2.cs:line 20
+   at NetEvolve.Logging.XUnit.Tests.Integration.TestCase2.Run() in {ProjectDirectory}TestCase2.cs:line 19
