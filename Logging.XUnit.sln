@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
 		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
 		Directory.Solution.props = Directory.Solution.props
 		GitVersion.yml = GitVersion.yml
@@ -36,9 +35,6 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -53,25 +49,8 @@ Global
 		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF} = {EFE8181B-6FAB-4E04-BD9B-557C1286B858}
-		{EAAD2C22-48F4-4E37-9A46-0350C6B84388} = {BD750CCE-0318-424D-89B4-9C66EF329E96}
-		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12} = {BD750CCE-0318-424D-89B4-9C66EF329E96}
-	EndGlobalSection
-EndGlobal
-CPU.Build.0 = Release|Any CPU
-		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAAD2C22-48F4-4E37-9A46-0350C6B84388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAAD2C22-48F4-4E37-9A46-0350C6B84388}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAAD2C22-48F4-4E37-9A46-0350C6B84388}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAAD2C22-48F4-4E37-9A46-0350C6B84388}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2B38EDD-63F9-4027-9EA6-D1E0C6387C12}.Release|Any CPU.Build.0 = Release|Any CPU
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3F3CD6EC-4636-4B58-8400-09AC2B9BAFDF} = {EFE8181B-6FAB-4E04-BD9B-557C1286B858}

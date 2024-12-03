@@ -1,9 +1,6 @@
 ﻿namespace NetEvolve.Logging.XUnit.Tests.Integration;
 
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 

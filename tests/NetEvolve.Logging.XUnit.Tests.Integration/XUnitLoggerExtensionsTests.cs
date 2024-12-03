@@ -1,9 +1,6 @@
 ﻿namespace NetEvolve.Logging.XUnit.Tests.Integration;
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -58,12 +55,11 @@ public partial class XUnitLoggerExtensionsTests
     }
 
     public static TheoryData<XUnitLoggerOptions?> AddXUnitData =>
-        new TheoryData<XUnitLoggerOptions?>
-        {
+        [
             null,
             XUnitLoggerOptions.Default,
             XUnitLoggerOptions.EnableAllFeatures,
             XUnitLoggerOptions.DisableAllFeatures,
             XUnitLoggerOptions.Minimal,
-        };
+        ];
 }
