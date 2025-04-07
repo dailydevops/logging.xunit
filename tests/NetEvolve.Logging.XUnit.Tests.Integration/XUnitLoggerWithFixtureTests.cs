@@ -55,6 +55,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
+            .HashParameters()
             .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -94,6 +95,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
+            .HashParameters()
             .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -136,6 +138,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
+            .HashParameters()
             .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -178,6 +181,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
+            .HashParameters()
             .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -220,6 +224,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.LoggedMessages)
+            .HashParameters()
             .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
@@ -262,6 +267,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         // Assert
         _ = await Verifier
             .Verify(logger.ToString())
+            .HashParameters()
             .UseParameters(
                 disableAdditionalInformation,
                 disableLogLevel,
