@@ -10,10 +10,7 @@ using Xunit.Abstractions;
 using Xunit.Sdk;
 
 [ProviderAlias("XUnit")]
-internal sealed class XUnitLoggerProvider
-    : ILoggerProvider,
-        ISupportExternalScope,
-        IXUnitLoggerOptions
+internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalScope, IXUnitLoggerOptions
 {
     private readonly Action<string?> _writeToAction;
 

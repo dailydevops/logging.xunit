@@ -27,14 +27,12 @@ public static class XUnitLoggerExtensions
         services.TryAddSingleton(_ => TimeProvider.System);
         services.TryAddScoped<IExternalScopeProvider, LoggerExternalScopeProvider>();
         services.TryAddEnumerable(
-            ServiceDescriptor.Singleton<ILoggerProvider, XUnitLoggerProvider>(
-                sp => new XUnitLoggerProvider(
-                    sp.GetRequiredService<ITestOutputHelper>(),
-                    sp.GetRequiredService<TimeProvider>(),
-                    sp.GetRequiredService<IExternalScopeProvider>(),
-                    options ?? XUnitLoggerOptions.Default
-                )
-            )
+            ServiceDescriptor.Singleton<ILoggerProvider, XUnitLoggerProvider>(sp => new XUnitLoggerProvider(
+                sp.GetRequiredService<ITestOutputHelper>(),
+                sp.GetRequiredService<TimeProvider>(),
+                sp.GetRequiredService<IExternalScopeProvider>(),
+                options ?? XUnitLoggerOptions.Default
+            ))
         );
 
         return builder;
@@ -56,14 +54,12 @@ public static class XUnitLoggerExtensions
         services.TryAddSingleton(_ => TimeProvider.System);
         services.TryAddScoped<IExternalScopeProvider, LoggerExternalScopeProvider>();
         services.TryAddEnumerable(
-            ServiceDescriptor.Singleton<ILoggerProvider, XUnitLoggerProvider>(
-                sp => new XUnitLoggerProvider(
-                    sp.GetRequiredService<IMessageSink>(),
-                    sp.GetRequiredService<TimeProvider>(),
-                    sp.GetRequiredService<IExternalScopeProvider>(),
-                    options ?? XUnitLoggerOptions.Default
-                )
-            )
+            ServiceDescriptor.Singleton<ILoggerProvider, XUnitLoggerProvider>(sp => new XUnitLoggerProvider(
+                sp.GetRequiredService<IMessageSink>(),
+                sp.GetRequiredService<TimeProvider>(),
+                sp.GetRequiredService<IExternalScopeProvider>(),
+                options ?? XUnitLoggerOptions.Default
+            ))
         );
 
         return builder;

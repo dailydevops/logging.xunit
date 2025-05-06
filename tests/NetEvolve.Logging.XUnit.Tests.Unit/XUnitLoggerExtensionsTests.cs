@@ -10,8 +10,7 @@ public class XUnitLoggerExtensionsTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public XUnitLoggerExtensionsTests(ITestOutputHelper testOutputHelper) =>
-        _testOutputHelper = testOutputHelper;
+    public XUnitLoggerExtensionsTests(ITestOutputHelper testOutputHelper) => _testOutputHelper = testOutputHelper;
 
     [Fact]
     public void AddXUnit_WithNullBuilder_ThrowArgumentNullException()

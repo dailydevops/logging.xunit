@@ -56,12 +56,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         _ = await Verifier
             .Verify(logger.LoggedMessages)
             .HashParameters()
-            .UseParameters(
-                disableAdditionalInformation,
-                disableLogLevel,
-                disableScopes,
-                disableTimestamp
-            );
+            .UseParameters(disableAdditionalInformation, disableLogLevel, disableScopes, disableTimestamp);
     }
 
     [Theory]
@@ -96,12 +91,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         _ = await Verifier
             .Verify(logger.ToString())
             .HashParameters()
-            .UseParameters(
-                disableAdditionalInformation,
-                disableLogLevel,
-                disableScopes,
-                disableTimestamp
-            );
+            .UseParameters(disableAdditionalInformation, disableLogLevel, disableScopes, disableTimestamp);
     }
 
     [Theory]
@@ -139,12 +129,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         _ = await Verifier
             .Verify(logger.LoggedMessages)
             .HashParameters()
-            .UseParameters(
-                disableAdditionalInformation,
-                disableLogLevel,
-                disableScopes,
-                disableTimestamp
-            );
+            .UseParameters(disableAdditionalInformation, disableLogLevel, disableScopes, disableTimestamp);
     }
 
     [Theory]
@@ -182,12 +167,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         _ = await Verifier
             .Verify(logger.ToString())
             .HashParameters()
-            .UseParameters(
-                disableAdditionalInformation,
-                disableLogLevel,
-                disableScopes,
-                disableTimestamp
-            );
+            .UseParameters(disableAdditionalInformation, disableLogLevel, disableScopes, disableTimestamp);
     }
 
     [Theory]
@@ -225,12 +205,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         _ = await Verifier
             .Verify(logger.LoggedMessages)
             .HashParameters()
-            .UseParameters(
-                disableAdditionalInformation,
-                disableLogLevel,
-                disableScopes,
-                disableTimestamp
-            );
+            .UseParameters(disableAdditionalInformation, disableLogLevel, disableScopes, disableTimestamp);
     }
 
     [Theory]
@@ -268,12 +243,7 @@ public partial class XUnitLoggerWithFixtureTests : IClassFixture<TestFixture>
         _ = await Verifier
             .Verify(logger.ToString())
             .HashParameters()
-            .UseParameters(
-                disableAdditionalInformation,
-                disableLogLevel,
-                disableScopes,
-                disableTimestamp
-            );
+            .UseParameters(disableAdditionalInformation, disableLogLevel, disableScopes, disableTimestamp);
     }
 
     public static TheoryData<bool, bool, bool, bool> LoggedMessageOrToStringData =>
