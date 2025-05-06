@@ -86,8 +86,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull =>
-        CreateLogger<T>(messageSink, TimeProvider.System, scopeProvider, options);
+        where T : notnull => CreateLogger<T>(messageSink, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
@@ -159,8 +158,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IExternalScopeProvider? scopeProvider = null,
         IXUnitLoggerOptions? options = null
     )
-        where T : notnull =>
-        CreateLogger<T>(testOutputHelper, TimeProvider.System, scopeProvider, options);
+        where T : notnull => CreateLogger<T>(testOutputHelper, TimeProvider.System, scopeProvider, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="XUnitLogger{T}"/>.
@@ -233,9 +231,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             var now = _timeProvider.GetLocalNow();
             var (fullMessage, scopes) = CreateMessage(logLevel, state, exception, message, now);
 
-            _loggedMessages.Add(
-                new LoggedMessage(now, logLevel, eventId, message, exception, scopes)
-            );
+            _loggedMessages.Add(new LoggedMessage(now, logLevel, eventId, message, exception, scopes));
 
             _writeToLog.Invoke(fullMessage);
         }
@@ -263,9 +259,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         {
             if (!_options.DisableTimestamp)
             {
-                _ = builder
-                    .Append(now.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture))
-                    .Append(' ');
+                _ = builder.Append(now.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture)).Append(' ');
             }
 
             if (!_options.DisableLogLevel)
@@ -341,10 +335,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             : state.Append(scope);
     }
 
-    private static void AddAdditionalInformation(
-        StringBuilder builder,
-        KeyValuePair<string, object?> info
-    ) => _ = builder.Append('\n').Append(' ', 4).Append(info.Key).Append(": ").Append(info.Value);
+    private static void AddAdditionalInformation(StringBuilder builder, KeyValuePair<string, object?> info) =>
+        _ = builder.Append('\n').Append(' ', 4).Append(info.Key).Append(": ").Append(info.Value);
 
 #pragma warning disable IDE0072 // Add missing cases
     internal static string LogLevelToString(LogLevel logLevel) =>
@@ -382,12 +374,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
                 if (!_options.DisableTimestamp)
                 {
                     _ = builder
-                        .Append(
-                            lmsg.Timestamp.ToString(
-                                _options.TimestampFormat,
-                                CultureInfo.InvariantCulture
-                            )
-                        )
+                        .Append(lmsg.Timestamp.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture))
                         .Append(' ');
                 }
 

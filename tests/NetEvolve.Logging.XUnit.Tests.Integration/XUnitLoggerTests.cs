@@ -15,8 +15,7 @@ public partial class XUnitLoggerTests
     );
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public XUnitLoggerTests(ITestOutputHelper testOutputHelper) =>
-        _testOutputHelper = testOutputHelper;
+    public XUnitLoggerTests(ITestOutputHelper testOutputHelper) => _testOutputHelper = testOutputHelper;
 
     [Fact]
     public void LoggedMessages_Empty_Expected()

@@ -10,8 +10,7 @@ public class XUnitLoggerProviderTests
 {
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public XUnitLoggerProviderTests(ITestOutputHelper testOutputHelper) =>
-        _testOutputHelper = testOutputHelper;
+    public XUnitLoggerProviderTests(ITestOutputHelper testOutputHelper) => _testOutputHelper = testOutputHelper;
 
     [Fact]
     public void CreateLogger_WithTestOutputHelper()
@@ -64,9 +63,7 @@ public class XUnitLoggerProviderTests
         _ = provider.CreateLogger<XUnitLoggerProviderTests>();
 
         // Act
-        var ex = Record.Exception(
-            () => provider.SetScopeProvider(NullExternalScopeProvider.Instance)
-        );
+        var ex = Record.Exception(() => provider.SetScopeProvider(NullExternalScopeProvider.Instance));
 
         // Assert
         Assert.Null(ex);

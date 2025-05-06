@@ -62,9 +62,7 @@ public class XUnitLoggerOptions : IXUnitLoggerOptions
 
     /// <inheritdoc cref="IXUnitLoggerOptions.TimestampFormat"/>
 #if NET7_0_OR_GREATER
-    [System.Diagnostics.CodeAnalysis.StringSyntax(
-        System.Diagnostics.CodeAnalysis.StringSyntaxAttribute.DateTimeFormat
-    )]
+    [System.Diagnostics.CodeAnalysis.StringSyntax(System.Diagnostics.CodeAnalysis.StringSyntaxAttribute.DateTimeFormat)]
 #endif
     public string TimestampFormat
     {

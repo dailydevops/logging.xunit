@@ -37,10 +37,7 @@ public partial class XUnitLoggerTests
     {
         IMessageSink messageSink = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "messageSink",
-            () => XUnitLogger.CreateLogger(messageSink)
-        );
+        _ = Assert.Throws<ArgumentNullException>("messageSink", () => XUnitLogger.CreateLogger(messageSink));
     }
 
     [Fact]
@@ -107,10 +104,7 @@ public partial class XUnitLoggerTests
     {
         ITestOutputHelper testOutputHelper = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () => XUnitLogger.CreateLogger(testOutputHelper)
-        );
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () => XUnitLogger.CreateLogger(testOutputHelper));
     }
 
     [Fact]
