@@ -162,7 +162,7 @@ public class FrameworkTests
     public void TestWithMessageSink()
     {
         var logger = XUnitLogger.CreateLogger(_messageSink);
-        
+
         logger.LogInformation("This will be written to the message sink");
     }
 }
@@ -177,16 +177,16 @@ var options = new XUnitLoggerOptions
 {
     // Timestamp format (default: "o" - ISO 8601)
     TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff",
-    
+
     // Disable timestamp output (default: false)
     DisableTimestamp = false,
-    
+
     // Disable log level output (default: false)
     DisableLogLevel = false,
-    
+
     // Disable scope information (default: false)
     DisableScopes = false,
-    
+
     // Disable additional structured data (default: false)
     DisableAdditionalInformation = false
 };
@@ -197,19 +197,19 @@ var logger = XUnitLogger.CreateLogger<MyClass>(_output, options: options);
 ### Output Format Examples
 
 **Default output:**
-```
+```text
 2025-11-26T10:30:45.123+00:00 [INFO] User logged in successfully
     UserId: 123
     Username: john.doe
 ```
 
 **Minimal output (all optional features disabled):**
-```
+```text
 User logged in successfully
 ```
 
 **Custom timestamp format:**
-```
+```text
 10:30:45.123 [INFO] User logged in successfully
 ```
 
@@ -222,25 +222,25 @@ The logger captures all messages for inspection and assertions:
 public void VerifyLoggingBehavior()
 {
     var logger = XUnitLogger.CreateLogger<MyClass>(_output);
-    
+
     // Perform operations that generate logs
     logger.LogInformation("Operation started");
     logger.LogWarning("Potential issue detected");
     logger.LogError("Operation failed");
-    
+
     // Access all logged messages
     var messages = logger.LoggedMessages;
-    
+
     // Assertions
     Assert.Equal(3, messages.Count);
     Assert.Contains(messages, m => m.LogLevel == LogLevel.Information);
     Assert.Contains(messages, m => m.LogLevel == LogLevel.Warning);
     Assert.Contains(messages, m => m.LogLevel == LogLevel.Error);
     Assert.Contains(messages, m => m.Message.Contains("Operation started"));
-    
+
     // Check timestamps
     Assert.All(messages, m => Assert.True(m.Timestamp != default));
-    
+
     // Check for exceptions
     var errorMessage = messages.First(m => m.LogLevel == LogLevel.Error);
     Assert.Null(errorMessage.Exception); // or Assert.NotNull if exception was logged
@@ -256,19 +256,19 @@ public void VerifyLoggingBehavior()
 public void TestWithScopes()
 {
     var logger = XUnitLogger.CreateLogger<MyClass>(_output);
-    
+
     using (logger.BeginScope("Operation {OperationId}", "12345"))
     {
         logger.LogInformation("Processing started");
-        
+
         using (logger.BeginScope("Step {StepNumber}", 1))
         {
             logger.LogDebug("Step 1 execution");
         }
-        
+
         logger.LogInformation("Processing completed");
     }
-    
+
     // Verify scope information was captured
     var messages = logger.LoggedMessages;
     Assert.All(messages, m => Assert.NotEmpty(m.Scopes));
@@ -283,16 +283,16 @@ public void TestWithFakeTimeProvider()
 {
     var fakeTime = new FakeTimeProvider();
     fakeTime.SetUtcNow(new DateTimeOffset(2025, 1, 1, 12, 0, 0, TimeSpan.Zero));
-    
+
     var logger = XUnitLogger.CreateLogger<MyClass>(_output, fakeTime);
-    
+
     logger.LogInformation("First message");
-    
+
     // Advance time
     fakeTime.Advance(TimeSpan.FromMinutes(5));
-    
+
     logger.LogInformation("Second message");
-    
+
     // Verify timestamps
     var messages = logger.LoggedMessages;
     Assert.Equal(5, (messages[1].Timestamp - messages[0].Timestamp).TotalMinutes);
@@ -328,10 +328,10 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         });
 
         var client = factory.CreateClient();
-        
+
         // Make request
         var response = await client.GetAsync("/api/users");
-        
+
         // All logging from the API will appear in test output
         Assert.True(response.IsSuccessStatusCode);
     }
@@ -376,7 +376,7 @@ public class MyTests
 
 ### Exception: "There is no currently active test"
 
-This occurs when trying to write to `ITestOutputHelper` outside of test execution. Ensure logging only happens during test execution, not in class constructors or after test completion.
+This occurs when trying to write to `ITestOutputHelper` outside test execution. Ensure logging only happens during test execution, not in class constructors or after test completion.
 
 ## Target Frameworks
 
