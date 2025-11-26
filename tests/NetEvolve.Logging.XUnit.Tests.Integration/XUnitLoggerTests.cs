@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
 using VerifyXunit;
 using Xunit;
-using Xunit.Abstractions;
 
 public partial class XUnitLoggerTests
 {

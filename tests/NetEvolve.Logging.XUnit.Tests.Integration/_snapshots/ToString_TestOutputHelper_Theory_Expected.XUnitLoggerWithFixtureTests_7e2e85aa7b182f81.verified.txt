@@ -1,0 +1,4 @@
+﻿Before 1: (null)
+Exception: Unknown exception.
+System.InvalidOperationException: Operation is not valid due to the current state of the object.
+   at NetEvolve.Logging.XUnit.Tests.Integration.TestCase2.Run() in {ProjectDirectory}TestCase2.cs:line 19

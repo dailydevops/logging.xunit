@@ -6,20 +6,21 @@ using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 using NetEvolve.Arguments;
 using NetEvolve.Logging.Abstractions;
-using Xunit.Abstractions;
+using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
 [ProviderAlias("XUnit")]
 internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalScope, IXUnitLoggerOptions
 {
-    private readonly Action<string?> _writeToAction;
+    private readonly Action<string> _writeToAction;
 
     private readonly IExternalScopeProvider _scopeProvider = NullExternalScopeProvider.Instance;
     private readonly XUnitLoggerOptions _options;
     private readonly ConcurrentDictionary<string, XUnitLogger> _loggers;
     private readonly TimeProvider _timeProvider;
 
-    internal ImmutableList<XUnitLogger> Loggers => ImmutableList.CreateRange(_loggers.Values);
+    internal ImmutableList<XUnitLogger> Loggers => [.. _loggers.Values];
 
     /// <inheritdoc cref="IXUnitLoggerOptions.DisableAdditionalInformation"/>
     public bool DisableAdditionalInformation => _options.DisableAdditionalInformation;
@@ -52,7 +53,7 @@ internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalSco
         _timeProvider = timeProvider;
 
         _loggers = new ConcurrentDictionary<string, XUnitLogger>(StringComparer.Ordinal);
-        _writeToAction = message => messageSink.OnMessage(new DiagnosticMessage(message));
+        _writeToAction = message => _ = messageSink.OnMessage(new DiagnosticMessage(message));
     }
 
     public XUnitLoggerProvider(

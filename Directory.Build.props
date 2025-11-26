@@ -8,10 +8,12 @@
     <PackageTags>logging;provider;xunit</PackageTags>
     <CopyrightYearStart>2024</CopyrightYearStart>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <SuppressTfmSupportBuildErrors>true</SuppressTfmSupportBuildErrors>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
   <PropertyGroup>
-    <ProjectTargetFrameworks>net6.0;net7.0;net8.0;net9.0</ProjectTargetFrameworks>
-    <TestTargetFrameworks>net6.0;net7.0;net8.0;net9.0</TestTargetFrameworks>
+    <ProjectTargetFrameworks>net8.0;net9.0;net10.0</ProjectTargetFrameworks>
+    <TestTargetFrameworks>net8.0;net9.0;net10.0</TestTargetFrameworks>
     <DisableBannedApiForUTC>true</DisableBannedApiForUTC>
   </PropertyGroup>
   <PropertyGroup>

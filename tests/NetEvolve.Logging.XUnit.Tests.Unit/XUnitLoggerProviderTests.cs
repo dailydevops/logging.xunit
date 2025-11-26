@@ -4,7 +4,6 @@ using System;
 using Microsoft.Extensions.Logging;
 using NetEvolve.Logging.Abstractions;
 using Xunit;
-using Xunit.Abstractions;
 
 public class XUnitLoggerProviderTests
 {

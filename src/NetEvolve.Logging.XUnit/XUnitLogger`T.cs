@@ -2,8 +2,9 @@
 
 using System;
 using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
+using Xunit;
 using Xunit.Sdk;
+using Xunit.v3;
 
 /// <inheritdoc cref="XUnitLogger" />
 public sealed class XUnitLogger<T> : XUnitLogger, ILogger<T>
@@ -17,7 +18,7 @@ public sealed class XUnitLogger<T> : XUnitLogger, ILogger<T>
     )
         : base(
             messageSink is not null
-                ? message => messageSink.OnMessage(new DiagnosticMessage(message))
+                ? message => _ = messageSink.OnMessage(new DiagnosticMessage(message))
                 : throw new ArgumentNullException(nameof(messageSink)),
             timeProvider,
             scopeProvider,

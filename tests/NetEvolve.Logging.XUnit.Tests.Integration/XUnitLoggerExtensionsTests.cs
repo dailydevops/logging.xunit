@@ -2,7 +2,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
 
 public partial class XUnitLoggerExtensionsTests
 {
@@ -55,7 +54,7 @@ public partial class XUnitLoggerExtensionsTests
 
     public static TheoryData<XUnitLoggerOptions?> AddXUnitData =>
         [
-            null,
+            null!,
             XUnitLoggerOptions.Default,
             XUnitLoggerOptions.EnableAllFeatures,
             XUnitLoggerOptions.DisableAllFeatures,
