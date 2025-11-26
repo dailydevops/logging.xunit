@@ -2,7 +2,7 @@
 
 using System;
 using Xunit;
-using Xunit.Abstractions;
+using Xunit.Sdk;
 
 public partial class XUnitLoggerOfTTests
 {

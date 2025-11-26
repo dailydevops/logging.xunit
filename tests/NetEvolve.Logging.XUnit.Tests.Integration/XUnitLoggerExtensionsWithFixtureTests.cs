@@ -54,7 +54,7 @@ public partial class XUnitLoggerExtensionsWithFixtureTests : IClassFixture<TestF
 
     public static TheoryData<XUnitLoggerOptions?> AddXUnitData =>
         [
-            null,
+            null!,
             XUnitLoggerOptions.Default,
             XUnitLoggerOptions.EnableAllFeatures,
             XUnitLoggerOptions.DisableAllFeatures,

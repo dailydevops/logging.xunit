@@ -4,7 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using NetEvolve.Arguments;
-using Xunit.Abstractions;
+using Xunit;
+using Xunit.Sdk;
 
 /// <summary>
 /// Extensions for <see cref="ILoggingBuilder"/> to add a xunit logger.

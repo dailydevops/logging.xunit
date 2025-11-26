@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
+using Xunit.Sdk;
 
 public sealed partial class TestFixture : IAsyncLifetime
 {
@@ -10,7 +10,7 @@ public sealed partial class TestFixture : IAsyncLifetime
 
     public TestFixture(IMessageSink messageSink) => MessageSink = messageSink;
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
-    public Task InitializeAsync() => Task.CompletedTask;
+    public ValueTask InitializeAsync() => ValueTask.CompletedTask;
 }

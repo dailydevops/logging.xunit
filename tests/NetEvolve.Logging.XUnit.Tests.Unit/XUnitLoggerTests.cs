@@ -4,7 +4,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;
-using Xunit.Abstractions;
+using Xunit.Sdk;
 
 public partial class XUnitLoggerTests
 {
