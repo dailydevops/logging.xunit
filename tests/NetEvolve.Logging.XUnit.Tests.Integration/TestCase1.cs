@@ -18,7 +18,7 @@ internal sealed partial class TestCase1
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
         using var scope2 = _logger.BeginScope("Execution {Now}", DateTimeOffset.Now);
         using var scope3 = _logger.BeginScope(
-            new Dictionary<string, object> { { "ExectionTime", DateTimeOffset.Now } }
+            new Dictionary<string, object> { { "ExecutionTime", DateTimeOffset.Now } }
         );
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
         LogTrace();
