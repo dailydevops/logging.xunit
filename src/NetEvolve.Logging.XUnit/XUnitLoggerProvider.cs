@@ -44,8 +44,8 @@ internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalSco
         XUnitLoggerOptions? options = null
     )
     {
-        Argument.ThrowIfNull(messageSink);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(messageSink);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         _scopeProvider = scopeProvider ?? new LoggerExternalScopeProvider();
         _options = options ?? XUnitLoggerOptions.Default;
@@ -63,8 +63,8 @@ internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalSco
         XUnitLoggerOptions? options = null
     )
     {
-        Argument.ThrowIfNull(testOutputHelper);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(testOutputHelper);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         _scopeProvider = scopeProvider ?? new LoggerExternalScopeProvider();
         _options = options ?? XUnitLoggerOptions.Default;
@@ -78,7 +78,7 @@ internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalSco
     /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
     public ILogger CreateLogger(string categoryName)
     {
-        Argument.ThrowIfNullOrWhiteSpace(categoryName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(categoryName);
 
         return _loggers.GetOrAdd(
             $"{categoryName}_Default",
@@ -97,7 +97,7 @@ internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalSco
     /// <inheritdoc cref="ISupportExternalScope.SetScopeProvider(IExternalScopeProvider)"/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)
     {
-        Argument.ThrowIfNull(scopeProvider);
+        ArgumentNullException.ThrowIfNull(scopeProvider);
 
         if (_scopeProvider == scopeProvider)
         {

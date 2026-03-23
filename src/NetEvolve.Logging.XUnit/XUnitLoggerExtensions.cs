@@ -21,8 +21,8 @@ public static class XUnitLoggerExtensions
         XUnitLoggerOptions? options = null
     )
     {
-        Argument.ThrowIfNull(builder);
-        Argument.ThrowIfNull(testOutputHelper);
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(testOutputHelper);
 
         var services = builder.Services.AddSingleton(testOutputHelper);
         services.TryAddSingleton(_ => TimeProvider.System);
@@ -48,8 +48,8 @@ public static class XUnitLoggerExtensions
         XUnitLoggerOptions? options = null
     )
     {
-        Argument.ThrowIfNull(builder);
-        Argument.ThrowIfNull(messageSink);
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(messageSink);
 
         var services = builder.Services.AddSingleton(messageSink);
         services.TryAddSingleton(_ => TimeProvider.System);

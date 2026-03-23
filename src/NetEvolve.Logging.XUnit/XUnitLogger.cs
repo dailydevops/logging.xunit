@@ -63,8 +63,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IXUnitLoggerOptions? options = null
     )
     {
-        Argument.ThrowIfNull(messageSink);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(messageSink);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         return new XUnitLogger(
             message => _ = messageSink.OnMessage(new DiagnosticMessage(message)),
@@ -106,8 +106,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     )
         where T : notnull
     {
-        Argument.ThrowIfNull(messageSink);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(messageSink);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         return new XUnitLogger<T>(messageSink, timeProvider, scopeProvider, options);
     }
@@ -140,8 +140,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IXUnitLoggerOptions? options = null
     )
     {
-        Argument.ThrowIfNull(testOutputHelper);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(testOutputHelper);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         return new XUnitLogger(testOutputHelper.WriteLine, timeProvider, scopeProvider, options);
     }
@@ -178,8 +178,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     )
         where T : notnull
     {
-        Argument.ThrowIfNull(testOutputHelper);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(testOutputHelper);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         return new XUnitLogger<T>(testOutputHelper, timeProvider, scopeProvider, options);
     }
@@ -191,8 +191,8 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         IXUnitLoggerOptions? options
     )
     {
-        Argument.ThrowIfNull(writeToAction);
-        Argument.ThrowIfNull(timeProvider);
+        ArgumentNullException.ThrowIfNull(writeToAction);
+        ArgumentNullException.ThrowIfNull(timeProvider);
 
         ScopeProvider = scopeProvider ?? NullExternalScopeProvider.Instance;
         _timeProvider = timeProvider;
@@ -219,7 +219,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
         Func<TState, Exception?, string> formatter
     )
     {
-        Argument.ThrowIfNull(formatter);
+        ArgumentNullException.ThrowIfNull(formatter);
 
         if (!IsEnabled(logLevel))
         {
@@ -356,7 +356,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
     /// <inheritdoc/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)
     {
-        Argument.ThrowIfNull(scopeProvider);
+        ArgumentNullException.ThrowIfNull(scopeProvider);
 
         ScopeProvider = scopeProvider;
     }
