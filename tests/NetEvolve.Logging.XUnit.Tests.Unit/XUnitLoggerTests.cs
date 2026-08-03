@@ -2,7 +2,7 @@
 
 using System;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
+using TUnit.Mocks;
 using Xunit;
 using Xunit.Sdk;
 
@@ -55,7 +55,7 @@ public partial class XUnitLoggerTests
     [Fact]
     public void CreateLogger_WithMessageSinkSubstituteAndTimeProviderNull_ThrowsArgumentNullException()
     {
-        var messageSink = Substitute.For<IMessageSink>();
+        var messageSink = Mock.Of<IMessageSink>().Object;
         TimeProvider timeProvider = null!;
 
         _ = Assert.Throws<ArgumentNullException>(
@@ -90,7 +90,7 @@ public partial class XUnitLoggerTests
     [Fact]
     public void CreateLoggerGeneric_WithMessageSinkSubstituteAndTimeProviderNull_ThrowsArgumentNullException()
     {
-        var messageSink = Substitute.For<IMessageSink>();
+        var messageSink = Mock.Of<IMessageSink>().Object;
         TimeProvider timeProvider = null!;
 
         _ = Assert.Throws<ArgumentNullException>(
@@ -122,7 +122,7 @@ public partial class XUnitLoggerTests
     [Fact]
     public void CreateLogger_WithTestOutputHelperSubstituteAndTimeProviderNull_ThrowsArgumentNullException()
     {
-        var testOutputHelper = Substitute.For<ITestOutputHelper>();
+        var testOutputHelper = Mock.Of<ITestOutputHelper>().Object;
         TimeProvider timeProvider = null!;
 
         _ = Assert.Throws<ArgumentNullException>(
@@ -157,7 +157,7 @@ public partial class XUnitLoggerTests
     [Fact]
     public void CreateLoggerGeneric_WithTestOutputHelperSubstituteAndTimeProviderNull_ThrowsArgumentNullException()
     {
-        var testOutputHelper = Substitute.For<ITestOutputHelper>();
+        var testOutputHelper = Mock.Of<ITestOutputHelper>().Object;
         TimeProvider timeProvider = null!;
 
         _ = Assert.Throws<ArgumentNullException>(
