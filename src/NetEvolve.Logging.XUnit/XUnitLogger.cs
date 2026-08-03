@@ -258,34 +258,7 @@ public class XUnitLogger : ILogger, ISupportExternalScope
 
         try
         {
-            if (!_options.DisableTimestamp)
-            {
-                _ = builder.Append(now.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture)).Append(' ');
-            }
-
-            if (!_options.DisableLogLevel)
-            {
-                _ = builder.Append('[').Append(LogLevelToString(logLevel)).Append("] ");
-            }
-
-            _ = builder.Append(message);
-
-            if (exception is not null)
-            {
-                _ = builder.Append('\n').Append(exception);
-            }
-
-            if (
-                !_options.DisableAdditionalInformation
-                && state is IReadOnlyList<KeyValuePair<string, object?>> additionalInformation
-            )
-            {
-                _ = builder.Append('\n').Append('\t').Append("Additional Information");
-                foreach (var info in additionalInformation)
-                {
-                    AddAdditionalInformation(builder, info);
-                }
-            }
+            AppendMessageBody(builder, logLevel, state, exception, message, now);
 
             ScopeProvider.ForEachScope(IterateScopes, builder);
 
@@ -313,6 +286,45 @@ public class XUnitLogger : ILogger, ISupportExternalScope
             if (!_options.DisableScopes)
             {
                 PrintScope(scope, state);
+            }
+        }
+    }
+
+    private void AppendMessageBody<TState>(
+        StringBuilder builder,
+        LogLevel logLevel,
+        TState state,
+        Exception? exception,
+        string message,
+        DateTimeOffset now
+    )
+    {
+        if (!_options.DisableTimestamp)
+        {
+            _ = builder.Append(now.ToString(_options.TimestampFormat, CultureInfo.InvariantCulture)).Append(' ');
+        }
+
+        if (!_options.DisableLogLevel)
+        {
+            _ = builder.Append('[').Append(LogLevelToString(logLevel)).Append("] ");
+        }
+
+        _ = builder.Append(message);
+
+        if (exception is not null)
+        {
+            _ = builder.Append('\n').Append(exception);
+        }
+
+        if (
+            !_options.DisableAdditionalInformation
+            && state is IReadOnlyList<KeyValuePair<string, object?>> additionalInformation
+        )
+        {
+            _ = builder.Append('\n').Append('\t').Append("Additional Information");
+            foreach (var info in additionalInformation)
+            {
+                AddAdditionalInformation(builder, info);
             }
         }
     }
