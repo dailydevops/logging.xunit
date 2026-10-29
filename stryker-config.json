@@ -9,7 +9,7 @@
       "tests/NetEvolve.Logging.XUnit.Tests.Integration/NetEvolve.Logging.XUnit.Tests.Integration.csproj",
       "tests/NetEvolve.Logging.XUnit.Tests.Unit/NetEvolve.Logging.XUnit.Tests.Unit.csproj"
     ],
-    "coverage-analysis": "perTest",
+    "coverage-analysis": "all",
     "mutate": ["**/*.cs", "!**/*.Designer.cs", "!**/*.g.cs", "!**/*.g.i.cs"],
     "test-runner": "mtp"
   }
