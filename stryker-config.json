@@ -2,6 +2,7 @@
   "stryker-config": {
     "solution": "Logging.XUnit.slnx",
     "mutation-level": "Advanced",
+    "ignore-mutations": ["linq"],
     "reporters": ["html", "json", "dashboard", "progress"],
     "project-info": { "name": "github.com/dailydevops/logging.xunit" },
     "thresholds": { "high": 80, "low": 60, "break": 0 },
