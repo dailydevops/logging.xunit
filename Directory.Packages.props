@@ -24,7 +24,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.14" />
     <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.11.0" />
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.0.6" />
-    <PackageVersion Include="NetEvolve.Arguments" Version="3.6.16" />
+    <PackageVersion Include="NetEvolve.Arguments" Version="3.6.39" />
     <PackageVersion Include="NetEvolve.Logging.Abstractions" Version="2.0.421" />
     <PackageVersion Include="TUnit.Mocks" Version="1.76.45" />
     <PackageVersion Include="Verify.ParametersHashing" Version="1.0.0" />
