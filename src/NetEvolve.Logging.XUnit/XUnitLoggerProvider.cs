@@ -80,19 +80,23 @@ internal sealed class XUnitLoggerProvider : ILoggerProvider, ISupportExternalSco
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(categoryName);
 
-        return _loggers.GetOrAdd(
-            $"{categoryName}_Default",
-            name => new XUnitLogger(_writeToAction, _timeProvider, _scopeProvider, this)
-        );
+        return _loggers.GetOrAdd($"{categoryName}_Default", name => new XUnitLogger(
+            _writeToAction,
+            _timeProvider,
+            _scopeProvider,
+            this
+        ));
     }
 
     /// <inheritdoc cref="ILoggerProvider.CreateLogger(string)"/>
     public ILogger CreateLogger<T>()
         where T : notnull =>
-        _loggers.GetOrAdd(
-            $"{typeof(T).FullName}_Default",
-            _ => new XUnitLogger<T>(_writeToAction, _timeProvider, _scopeProvider, this)
-        );
+        _loggers.GetOrAdd($"{typeof(T).FullName}_Default", _ => new XUnitLogger<T>(
+            _writeToAction,
+            _timeProvider,
+            _scopeProvider,
+            this
+        ));
 
     /// <inheritdoc cref="ISupportExternalScope.SetScopeProvider(IExternalScopeProvider)"/>
     public void SetScopeProvider(IExternalScopeProvider scopeProvider)

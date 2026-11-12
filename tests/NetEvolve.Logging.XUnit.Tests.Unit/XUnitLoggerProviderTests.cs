@@ -92,30 +92,26 @@ public class XUnitLoggerProviderTests
 
     [Fact]
     public void Ctor_MessageSink_Null_ThrowArgumentNullException() =>
-        _ = Assert.Throws<ArgumentNullException>(
-            "messageSink",
-            () => new XUnitLoggerProvider((IMessageSink)null!, TimeProvider.System)
+        _ = Assert.Throws<ArgumentNullException>("messageSink", () =>
+            new XUnitLoggerProvider((IMessageSink)null!, TimeProvider.System)
         );
 
     [Fact]
     public void Ctor_TestOutputHelper_Null_ThrowArgumentNullException() =>
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () => new XUnitLoggerProvider((ITestOutputHelper)null!, TimeProvider.System)
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () =>
+            new XUnitLoggerProvider((ITestOutputHelper)null!, TimeProvider.System)
         );
 
     [Fact]
     public void Ctor_MessageSink_TimeProviderNull_ThrowArgumentNullException() =>
-        _ = Assert.Throws<ArgumentNullException>(
-            "timeProvider",
-            () => new XUnitLoggerProvider(new TestMessageSink(), null!)
+        _ = Assert.Throws<ArgumentNullException>("timeProvider", () =>
+            new XUnitLoggerProvider(new TestMessageSink(), null!)
         );
 
     [Fact]
     public void Ctor_TestOutputHelper_TimeProviderNull_ThrowArgumentNullException() =>
-        _ = Assert.Throws<ArgumentNullException>(
-            "timeProvider",
-            () => new XUnitLoggerProvider(_testOutputHelper, null!)
+        _ = Assert.Throws<ArgumentNullException>("timeProvider", () =>
+            new XUnitLoggerProvider(_testOutputHelper, null!)
         );
 
     [Fact]
