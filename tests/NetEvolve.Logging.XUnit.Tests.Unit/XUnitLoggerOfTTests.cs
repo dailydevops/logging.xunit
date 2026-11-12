@@ -11,9 +11,8 @@ public partial class XUnitLoggerOfTTests
     {
         IMessageSink messageSink = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "messageSink",
-            () => _ = new XUnitLogger<XUnitLoggerOfTTests>(messageSink, null!, null!, null!)
+        _ = Assert.Throws<ArgumentNullException>("messageSink", () =>
+            _ = new XUnitLogger<XUnitLoggerOfTTests>(messageSink, null!, null!, null!)
         );
     }
 
@@ -22,9 +21,8 @@ public partial class XUnitLoggerOfTTests
     {
         ITestOutputHelper testOutputHelper = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () => _ = new XUnitLogger<XUnitLoggerOfTTests>(testOutputHelper, null!, null!, null!)
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () =>
+            _ = new XUnitLogger<XUnitLoggerOfTTests>(testOutputHelper, null!, null!, null!)
         );
     }
 
@@ -33,9 +31,8 @@ public partial class XUnitLoggerOfTTests
     {
         Action<string> writeToAction = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "writeToAction",
-            () => _ = new XUnitLogger<XUnitLoggerOfTTests>(writeToAction, null!, null!, null!)
+        _ = Assert.Throws<ArgumentNullException>("writeToAction", () =>
+            _ = new XUnitLogger<XUnitLoggerOfTTests>(writeToAction, null!, null!, null!)
         );
     }
 }

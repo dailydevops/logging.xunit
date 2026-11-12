@@ -46,9 +46,8 @@ public partial class XUnitLoggerTests
         IMessageSink messageSink = null!;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "messageSink",
-            () => XUnitLogger.CreateLogger(messageSink, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("messageSink", () =>
+            XUnitLogger.CreateLogger(messageSink, timeProvider)
         );
     }
 
@@ -58,9 +57,8 @@ public partial class XUnitLoggerTests
         var messageSink = Mock.Of<IMessageSink>().Object;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "timeProvider",
-            () => XUnitLogger.CreateLogger(messageSink, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("timeProvider", () =>
+            XUnitLogger.CreateLogger(messageSink, timeProvider)
         );
     }
 
@@ -69,9 +67,8 @@ public partial class XUnitLoggerTests
     {
         IMessageSink messageSink = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "messageSink",
-            () => XUnitLogger.CreateLogger<XUnitLoggerTests>(messageSink)
+        _ = Assert.Throws<ArgumentNullException>("messageSink", () =>
+            XUnitLogger.CreateLogger<XUnitLoggerTests>(messageSink)
         );
     }
 
@@ -81,9 +78,8 @@ public partial class XUnitLoggerTests
         IMessageSink messageSink = null!;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "messageSink",
-            () => XUnitLogger.CreateLogger<XUnitLoggerTests>(messageSink, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("messageSink", () =>
+            XUnitLogger.CreateLogger<XUnitLoggerTests>(messageSink, timeProvider)
         );
     }
 
@@ -93,9 +89,8 @@ public partial class XUnitLoggerTests
         var messageSink = Mock.Of<IMessageSink>().Object;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "timeProvider",
-            () => XUnitLogger.CreateLogger<XUnitLoggerTests>(messageSink, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("timeProvider", () =>
+            XUnitLogger.CreateLogger<XUnitLoggerTests>(messageSink, timeProvider)
         );
     }
 
@@ -113,9 +108,8 @@ public partial class XUnitLoggerTests
         ITestOutputHelper testOutputHelper = null!;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () => XUnitLogger.CreateLogger(testOutputHelper, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () =>
+            XUnitLogger.CreateLogger(testOutputHelper, timeProvider)
         );
     }
 
@@ -125,9 +119,8 @@ public partial class XUnitLoggerTests
         var testOutputHelper = Mock.Of<ITestOutputHelper>().Object;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "timeProvider",
-            () => XUnitLogger.CreateLogger(testOutputHelper, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("timeProvider", () =>
+            XUnitLogger.CreateLogger(testOutputHelper, timeProvider)
         );
     }
 
@@ -136,9 +129,8 @@ public partial class XUnitLoggerTests
     {
         ITestOutputHelper testOutputHelper = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () => XUnitLogger.CreateLogger<XUnitLoggerTests>(testOutputHelper)
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () =>
+            XUnitLogger.CreateLogger<XUnitLoggerTests>(testOutputHelper)
         );
     }
 
@@ -148,9 +140,8 @@ public partial class XUnitLoggerTests
         ITestOutputHelper testOutputHelper = null!;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () => XUnitLogger.CreateLogger<XUnitLoggerTests>(testOutputHelper, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () =>
+            XUnitLogger.CreateLogger<XUnitLoggerTests>(testOutputHelper, timeProvider)
         );
     }
 
@@ -160,9 +151,8 @@ public partial class XUnitLoggerTests
         var testOutputHelper = Mock.Of<ITestOutputHelper>().Object;
         TimeProvider timeProvider = null!;
 
-        _ = Assert.Throws<ArgumentNullException>(
-            "timeProvider",
-            () => XUnitLogger.CreateLogger<XUnitLoggerTests>(testOutputHelper, timeProvider)
+        _ = Assert.Throws<ArgumentNullException>("timeProvider", () =>
+            XUnitLogger.CreateLogger<XUnitLoggerTests>(testOutputHelper, timeProvider)
         );
     }
 }

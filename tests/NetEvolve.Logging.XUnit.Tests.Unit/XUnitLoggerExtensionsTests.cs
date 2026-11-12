@@ -33,15 +33,12 @@ public class XUnitLoggerExtensionsTests
         ITestOutputHelper output = null!;
 
         // Act & Assert
-        _ = Assert.Throws<ArgumentNullException>(
-            "testOutputHelper",
-            () =>
+        _ = Assert.Throws<ArgumentNullException>("testOutputHelper", () =>
+        {
+            _ = services.AddLogging(builder =>
             {
-                _ = services.AddLogging(builder =>
-                {
-                    _ = builder.AddXUnit(output);
-                });
-            }
-        );
+                _ = builder.AddXUnit(output);
+            });
+        });
     }
 }
